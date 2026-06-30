@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { PageLoader }   from "@/components/PageLoader";
+import { StructuredData } from "@/components/StructuredData";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -57,8 +58,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en-IN" className={inter.variable}>
       <body>
+        <StructuredData />
         <ThemeProvider>
           <PageLoader />
           {children}
