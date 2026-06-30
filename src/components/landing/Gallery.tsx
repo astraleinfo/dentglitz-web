@@ -209,7 +209,7 @@ export function Gallery() {
             </div>
 
             {/* Image */}
-            <div className="relative flex-1 min-h-0 bg-slate-50 px-6 py-5">
+            <div className="relative h-[42vh] w-full flex-shrink-0 bg-slate-50 px-4 py-4 sm:h-[58vh] sm:px-6 sm:py-5">
               <Image
                 src={lightboxItem.img}
                 alt={lightboxItem.label}

@@ -7,10 +7,48 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://dentglitz.com";
+
 export const metadata: Metadata = {
-  title: "Astrale Dental — Modern dentistry",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Dentglitz — The Complete Dental Care | Dental Clinic in Porur, Chennai",
+    template: "%s | Dentglitz Dental Care",
+  },
   description:
-    "Book your dental appointment online. Modern, gentle and trusted dental care.",
+    "Dentglitz is a complete dental care clinic in Porur, Chennai offering implants, Invisalign, smile design, teeth whitening and painless treatments. Book your appointment online.",
+  keywords: [
+    "dental clinic Porur",
+    "dentist Chennai",
+    "dental implants Chennai",
+    "Invisalign Chennai",
+    "teeth whitening",
+    "smile design",
+    "Dentglitz",
+  ],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "Dentglitz — The Complete Dental Care",
+    title: "Dentglitz — The Complete Dental Care | Porur, Chennai",
+    description:
+      "Modern, painless dental care in Porur, Chennai. Implants, Invisalign, smile design and more. Book online today.",
+    url: SITE_URL,
+    locale: "en_IN",
+    images: [{ url: "/glowing-teeth.png", width: 1200, height: 630, alt: "Dentglitz Dental Care" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dentglitz — The Complete Dental Care",
+    description: "Modern, painless dental care in Porur, Chennai. Book online today.",
+    images: ["/glowing-teeth.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
 };
 
 export default function RootLayout({

@@ -224,7 +224,7 @@ const services: Service[] = [
       "Dental Trauma and Injuries",
       "Swelling and Abscesses",
       "Fractured Teeth",
-      "Lost Restorations and Crowns",
+      "Fractured Restoration, Crown and Bridge",
     ],
     iconBg: "bg-[#2a487e]/10",
     iconBorder: "border-[#2a487e]/25",

@@ -78,14 +78,20 @@ export function Doctors() {
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 {/* Photo */}
-                <div className="relative overflow-hidden" style={{ height: 260 }}>
-                  <Image
-                    src={doc.avatar}
-                    alt={doc.name}
-                    fill
-                    className="object-cover object-top transition-transform duration-600 group-hover:scale-110"
-                    sizes="(max-width: 768px) 100vw, 400px"
-                  />
+                <div className="relative overflow-hidden" style={{ height: 340 }}>
+                  <div
+                    className="absolute inset-0"
+                    style={{ transform: `scale(${doc.zoom ?? 1})`, transformOrigin: doc.objectPosition ?? "center top" }}
+                  >
+                    <Image
+                      src={doc.avatar}
+                      alt={doc.name}
+                      fill
+                      className="object-cover transition-transform duration-600 group-hover:scale-110"
+                      style={{ objectPosition: doc.objectPosition ?? "center top" }}
+                      sizes="(max-width: 768px) 100vw, 400px"
+                    />
+                  </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-secondary/90 via-secondary/40 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
 
                   {/* Social icons on hover */}
@@ -188,7 +194,8 @@ export function Doctors() {
                   src={selected.avatar}
                   alt={selected.name}
                   fill
-                  className="object-cover object-top"
+                  className="object-cover"
+                  style={{ objectPosition: selected.objectPosition ?? "center top" }}
                   sizes="56px"
                 />
               </div>

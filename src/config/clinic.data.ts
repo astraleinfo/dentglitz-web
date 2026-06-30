@@ -15,10 +15,11 @@ export const socialLinks: SocialLink[] = [
 ];
 
 export const clinicStats = {
-  yearsOfExperience: 9,
+  yearsOfExperience: 9,   // doctors' clinical experience
   doctorsCount: 2,
-  happyPatients: 1000,
+  happyPatients: 1500,
   satisfactionPercent: 100,
+  yearsInService: 4,      // years the clinic has been operating
 };
 
 // ─────────────────────────────────────────────────────────
@@ -71,6 +72,10 @@ export interface Doctor {
   membership?: string;
   regNo?: string;
   specializations?: string[];
+  /** CSS object-position for the photo crop, e.g. "center 30%". Defaults to "center top". */
+  objectPosition?: string;
+  /** Zoom factor for the photo (1 = no zoom). Use >1 to enlarge a zoomed-out photo. */
+  zoom?: number;
 }
 
 export const doctors: Doctor[] = [
@@ -79,19 +84,22 @@ export const doctors: Doctor[] = [
     role: "Founder & Chief Dental Surgeon",
     qualification: "BDS - Bachelor of Dental Surgery",
     experience: "9+ Years",
-    avatar: "https://i.pravatar.cc/400?img=47",
-    specialty: "Esthetic Restoration",
+    avatar: "/images/gallery/Chimera.jpg",
+    objectPosition: "center 40%",
+    specialty: "Founder & Chief Dental Surgeon",
     phone: "8248456752",
     membership: "Lifetime IDA (Indian Dental Association) Member",
     regNo: "25370",
-    specializations: ["Esthetic Restoration", "Root Canal Treatment", "Kids Dentistry"],
+    specializations: ["Esthetic Restoration", "Root Canal Treatment", "Kids Dentistry","Tooth Removal"],
   },
   {
     name: "Dr. J. Jesima",
     role: "Prosthodontist & Implantologist",
     qualification: "MDS",
     experience: "3+ Years",
-    avatar: "https://i.pravatar.cc/400?img=47",
+    avatar: "/images/gallery/Jesima.jpg",
+    objectPosition: "center 20%",
+    zoom: 1.4,
     specialty: "Prosthodontics & Implantology",
     membership: "Member of Indian Prosthodontist Society",
     regNo: "33661",

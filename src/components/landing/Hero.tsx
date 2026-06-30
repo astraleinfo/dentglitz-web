@@ -17,6 +17,7 @@ const trustBadges = [
 const achievementCards = [
   { icon: FaTooth,       value: `${clinicStats.yearsOfExperience}+`,       label: "Years of Experience" },
   { icon: LuUsers,       value: `${clinicStats.doctorsCount}+`,             label: "Specialized Doctors" },
+  { icon: FaCalendarAlt, value: `${clinicStats.yearsInService}+`,           label: "Years of Service" },
   { icon: LuStar,        value: `${clinicStats.satisfactionPercent}%`,      label: "Patient Satisfaction" },
   { icon: LuShieldCheck, value: `${clinicStats.happyPatients}+`,            label: "Happy Smiles" },
 ];
@@ -80,7 +81,7 @@ export function Hero() {
 
       <section
         id="top"
-        className="relative flex min-h-screen items-center overflow-hidden bg-[#071224]"
+        className="relative flex min-h-screen items-start overflow-hidden bg-[#071224] lg:items-center"
       >
         {/* ── Background: dark overlay + photo ── */}
         <div className="absolute inset-0">
@@ -133,7 +134,7 @@ export function Hero() {
         </div>
 
         {/* ── Main grid ── */}
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-8 pt-28 pb-20 lg:px-12 xl:pl-10 xl:pr-8">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pt-32 pb-28 sm:px-8 sm:pt-28 sm:pb-20 lg:px-12 xl:pl-10 xl:pr-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center">
 
             {/* LEFT: Content */}
@@ -151,7 +152,7 @@ export function Hero() {
 
               {/* Heading */}
               <h1
-                className="hero-reveal reveal mb-5 text-5xl font-extrabold leading-[1.1] text-black/90 sm:text-6xl"
+                className="hero-reveal reveal mb-5 text-[2rem] font-extrabold leading-[1.1] text-black/90 sm:text-5xl lg:text-6xl"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 Transforming

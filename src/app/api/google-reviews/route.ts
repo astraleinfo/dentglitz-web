@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const revalidate = 3600; // cache for 1 hour
+export const revalidate = 86400; // cache for 24 hours (fetch Google reviews once a day)
 
 export async function GET() {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
@@ -15,7 +15,7 @@ export async function GET() {
       `https://places.googleapis.com/v1/places/${placeId}?fields=reviews,rating,userRatingCount&key=${apiKey}`,
       {
         headers: { "X-Goog-FieldMask": "reviews,rating,userRatingCount" },
-        next: { revalidate: 3600 },
+        next: { revalidate: 86400 },
       }
     );
 

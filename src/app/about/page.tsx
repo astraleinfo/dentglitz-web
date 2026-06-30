@@ -43,7 +43,7 @@ function StatCol({ target, suffix, label, sub, icon: Icon }: {
     return () => obs.disconnect();
   }, []);
   return (
-    <div ref={ref} className="group flex items-center gap-2 px-3 py-4 transition-all duration-300 hover:bg-white/40 sm:gap-4 sm:px-6 sm:py-5">
+    <div ref={ref} className="group flex items-start gap-2 px-3 py-4 transition-all duration-300 hover:bg-white/40 sm:gap-4 sm:px-6 sm:py-5">
       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-[#1e9b8d]/30 bg-white/70 shadow-sm transition-all duration-300 group-hover:border-[#1e9b8d]/60 group-hover:bg-white sm:h-14 sm:w-14">
         <Icon className="h-4 w-4 text-[#1e9b8d] sm:h-6 sm:w-6" />
       </div>
@@ -59,10 +59,11 @@ function StatCol({ target, suffix, label, sub, icon: Icon }: {
 }
 
 const stats = [
-  { target: clinicStats.yearsOfExperience,   suffix: "+",  label: "Years of Experience",  sub: "Trusted dental care since 2009", icon: FaAward },
-  { target: clinicStats.doctorsCount,         suffix: "+",  label: "Specialized Doctors",  sub: "Experienced professionals",      icon: FaUserMd },
-  { target: clinicStats.happyPatients,        suffix: "+",  label: "Happy Patients",       sub: "Smiles transformed with care",   icon: LuUsers },
-  { target: clinicStats.satisfactionPercent,  suffix: "%",  label: "Patient Satisfaction", sub: "Your trust is our success",      icon: LuShieldCheck },
+  { target: clinicStats.yearsOfExperience,   suffix: "+",  label: "Years of Experience",  sub: "Our doctors' clinical expertise", icon: FaAward },
+  { target: clinicStats.yearsInService,       suffix: "+",  label: "Years of Service",     sub: "Serving Porur since 2022",        icon: FaCalendarAlt },
+  { target: clinicStats.doctorsCount,         suffix: "+",  label: "Specialized Doctors",  sub: "Experienced professionals",       icon: FaUserMd },
+  { target: clinicStats.happyPatients,        suffix: "+",  label: "Happy Patients",       sub: "Smiles transformed with care",    icon: LuUsers },
+  { target: clinicStats.satisfactionPercent,  suffix: "%",  label: "Patient Satisfaction", sub: "Your trust is our success",       icon: LuShieldCheck },
 ];
 
 const valueIconMap: Record<ValueIconKey, React.ElementType> = {
@@ -111,7 +112,7 @@ export default function AboutPage() {
               </span>
             </h1>
             <p className="text-lg leading-relaxed text-white/60">
-              Serving the Porur community since 2009 — delivering advanced dental care with warmth, precision, and a genuine commitment to your smile.
+              Serving the Porur community since 2022 — delivering advanced dental care with warmth, precision, and a genuine commitment to your smile.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <BookAppointmentButton
@@ -225,7 +226,7 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]" />
           <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
             <div className="reveal overflow-hidden rounded-[24px] border border-white/70 bg-white/60 shadow-[0_8px_40px_rgba(30,155,141,0.08)] backdrop-blur-xl">
-              <div className="grid grid-cols-2 divide-x divide-y divide-slate-100/80 lg:grid-cols-4 lg:divide-y-0">
+              <div className="grid grid-cols-2 divide-x divide-y divide-slate-100/80 lg:grid-cols-5 lg:divide-y-0">
                 {stats.map((s) => <StatCol key={s.label} {...s} />)}
               </div>
             </div>

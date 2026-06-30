@@ -131,7 +131,7 @@ export function Navbar({ lightText = false }: { lightText?: boolean }) {
           <img
             src={cfg.logoUrl}
             alt={cfg.clinicName}
-            className={`w-auto transition-all duration-500 ${scrolled ? "h-12" : "h-20"}`}
+            className={`w-auto transition-all duration-500 ${scrolled ? "h-10 sm:h-12" : "h-12 sm:h-20"}`}
           />
         </a>
 

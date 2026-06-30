@@ -92,15 +92,25 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
   );
 }
 
-function ReviewCard({ r }: { r: Review }) {
+function ReviewCard({ r, onOpen }: { r: Review; onOpen: (r: Review) => void }) {
+  const isLong = r.text.length > 150;
   return (
-    <div className="w-72 flex-shrink-0 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-      <LuQuote className="mb-3 h-7 w-7 text-primary/20" />
+    <div className="flex h-72 w-72 flex-shrink-0 flex-col rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+      <LuQuote className="mb-3 h-7 w-7 flex-shrink-0 text-primary/20" />
       <StarRow count={r.rating} />
-      <p className="mt-3 text-sm leading-relaxed text-slate-600" style={{ fontFamily: "var(--font-sans)" }}>
+      <p className="mt-3 text-sm leading-relaxed text-slate-600 line-clamp-4" style={{ fontFamily: "var(--font-sans)" }}>
         &ldquo;{r.text}&rdquo;
       </p>
-      <div className="mt-4 flex items-center gap-3 border-t border-slate-50 pt-4">
+      {isLong && (
+        <button
+          type="button"
+          onClick={() => onOpen(r)}
+          className="mt-1 self-start text-xs font-semibold text-primary transition hover:underline"
+        >
+          Read more →
+        </button>
+      )}
+      <div className="mt-auto flex items-center gap-3 border-t border-slate-50 pt-4">
         {r.avatar ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -136,6 +146,7 @@ export function Testimonials() {
   const [reviews, setReviews] = useState<Review[]>(fallbackReviews);
   const [overallRating, setOverallRating] = useState<number | null>(4.9);
   const [totalReviews, setTotalReviews] = useState<number | null>(1300);
+  const [selected, setSelected] = useState<Review | null>(null);
 
   useEffect(() => {
     fetch("/api/google-reviews")
@@ -222,12 +233,60 @@ export function Testimonials() {
 
             <div className="flex gap-5 animate-scroll-x marquee-track w-max">
               {doubled.map((r, i) => (
-                <ReviewCard key={`${r.name}-${i}`} r={r} />
+                <ReviewCard key={`${r.name}-${i}`} r={r} onOpen={setSelected} />
               ))}
             </div>
           </div>
         </div>
       </section>
+
+      {/* ── Full-review modal ── */}
+      {selected && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm"
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="relative max-h-[80vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-7 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setSelected(null)}
+              aria-label="Close"
+              className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition hover:bg-slate-200"
+            >
+              ✕
+            </button>
+            <LuQuote className="mb-3 h-8 w-8 text-primary/20" />
+            <StarRow count={selected.rating} />
+            <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-slate-600" style={{ fontFamily: "var(--font-sans)" }}>
+              &ldquo;{selected.text}&rdquo;
+            </p>
+            <div className="mt-5 flex items-center gap-3 border-t border-slate-100 pt-4">
+              {selected.avatar ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={selected.avatar}
+                  alt={selected.name}
+                  className="h-10 w-10 rounded-full object-cover ring-2 ring-primary/20"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary ring-2 ring-primary/20">
+                  {selected.name.charAt(0)}
+                </div>
+              )}
+              <div>
+                <p className="text-sm font-bold text-slate-900">{selected.name}</p>
+                {selected.relativeTime && (
+                  <p className="text-[10px] text-slate-400">{selected.relativeTime}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
