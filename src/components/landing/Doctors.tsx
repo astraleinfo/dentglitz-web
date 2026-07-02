@@ -295,6 +295,7 @@ export function Doctors() {
                 className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] py-3 text-sm font-bold text-white
                            shadow-[0_4px_16px_rgba(30,155,141,0.35)]
                            transition-all duration-300 hover:from-[#25b8a8] hover:to-[#344f8c] hover:shadow-[0_6px_24px_rgba(30,155,141,0.50)]"
+                trackingId="doctors_modal_footer"
               />
             </div>
           </div>

@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Inter } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { PageLoader }   from "@/components/PageLoader";
 import { StructuredData } from "@/components/StructuredData";
+import { GTMPageView } from "@/components/GTMPageView";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://dentglitz.com";
+
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -60,6 +65,14 @@ export default function RootLayout({
   return (
     <html lang="en-IN" className={inter.variable}>
       <body>
+        {GTM_ID && (
+          <>
+            <GoogleTagManager gtmId={GTM_ID} />
+            <Suspense fallback={null}>
+              <GTMPageView />
+            </Suspense>
+          </>
+        )}
         <StructuredData />
         <ThemeProvider>
           <PageLoader />

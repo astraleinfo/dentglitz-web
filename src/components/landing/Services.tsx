@@ -317,6 +317,7 @@ export function Services() {
                 </span>
               }
               className="shrink-0 inline-flex items-center gap-1.5 text-sm font-semibold text-[#1e9b8d] transition-colors hover:text-[#0f7268]"
+              trackingId="services_header"
             />
           </div>
 
@@ -398,6 +399,7 @@ export function Services() {
                          hover:from-[#25b8a8] hover:to-[#344f8c]
                          hover:shadow-[0_6px_16px_rgba(0,0,0,0.12),_0_16px_48px_rgba(30,155,141,0.55)]
                          hover:-translate-y-0.5"
+              trackingId="services_bottom_cta"
             />
           </div>
         </div>
@@ -492,6 +494,7 @@ export function Services() {
                 className="flex w-full items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] py-3 text-sm font-bold text-white
                            shadow-[0_4px_16px_rgba(30,155,141,0.35)]
                            transition-all duration-300 hover:from-[#25b8a8] hover:to-[#344f8c] hover:shadow-[0_6px_24px_rgba(30,155,141,0.50)]"
+                trackingId="services_modal_footer"
               />
             </div>
           </div>

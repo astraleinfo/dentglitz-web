@@ -4,17 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { BookingWidget } from "./BookingWidget";
+import { trackButtonClick } from "@/lib/gtm";
 
 /**
  * Drop-in "Book Appointment" button that opens the booking widget in a modal.
- * Use anywhere: <BookAppointmentButton label="Book Now" />
+ * Use anywhere: <BookAppointmentButton label="Book Now" trackingId="hero" />
  */
 export function BookAppointmentButton({
   label = "Book Appointment",
   className = "btn-primary",
+  trackingId = "book_appointment",
 }: {
   label?: React.ReactNode;
   className?: string;
+  trackingId?: string;
 }) {
   const [open, setOpen] = useState(false);       // controls DOM presence
   const [visible, setVisible] = useState(false); // controls CSS transition state
@@ -24,6 +27,7 @@ export function BookAppointmentButton({
   useEffect(() => setMounted(true), []);
 
   function openModal() {
+    trackButtonClick(trackingId);
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setOpen(true);
     // Two rAFs ensure the element is in the DOM before the transition starts

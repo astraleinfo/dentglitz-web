@@ -18,6 +18,7 @@ import {
 
 import { useSiteConfig } from "@/components/ThemeProvider";
 import { socialLinks } from "@/config/clinic.data";
+import { trackButtonClick } from "@/lib/gtm";
 
 const quickLinks = [
   { label: "Home", href: "#top" },
@@ -154,6 +155,7 @@ export function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
+                  onClick={() => trackButtonClick(`footer_social_${label.toLowerCase().replace(/\s+/g, "_")}`)}
                   className="flex h-9 w-9 items-center justify-center rounded-full border border-[#1e9b8d]/25 bg-white text-[#1e9b8d] shadow-sm transition-all duration-300 hover:border-[#1e9b8d] hover:bg-[#1e9b8d] hover:text-white hover:scale-110 hover:shadow-[0_4px_16px_rgba(30,155,141,0.3)]"
                 >
                   <Icon className="h-3.5 w-3.5" />
@@ -181,6 +183,7 @@ export function Footer() {
                 <li key={label}>
                   <a
                     href={href}
+                    onClick={() => trackButtonClick(`footer_quicklink_${label.toLowerCase().replace(/\s+/g, "_")}`)}
                     className="group flex items-center gap-2 text-sm text-slate-500 transition-all duration-200 hover:text-[#1e9b8d]"
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
@@ -203,6 +206,7 @@ export function Footer() {
                 <li key={s}>
                   <a
                     href="#services"
+                    onClick={() => trackButtonClick(`footer_service_${s.toLowerCase().replace(/\s+/g, "_")}`)}
                     className="group flex items-center gap-2.5 text-sm text-slate-500 transition-all duration-200 hover:text-[#1e9b8d]"
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
@@ -228,6 +232,7 @@ export function Footer() {
                 </div>
                 <a
                   href={`tel:${cfg.phone}`}
+                  onClick={() => trackButtonClick("footer_call")}
                   className="text-sm text-slate-600 hover:text-[#1e9b8d] transition-colors"
                 >
                   {cfg.phone}
@@ -239,6 +244,7 @@ export function Footer() {
                 </div>
                 <a
                   href={`mailto:${cfg.email}`}
+                  onClick={() => trackButtonClick("footer_email")}
                   className="text-sm text-slate-600 hover:text-[#1e9b8d] transition-colors truncate"
                 >
                   {cfg.email}
@@ -267,34 +273,6 @@ export function Footer() {
               </li>
             </ul>
           </div>
-
-          {/* ── Newsletter ── */}
-          {/* <div>
-            <h4 className="mb-2 text-xs font-bold uppercase tracking-widest text-[#071224]">
-              Newsletter
-            </h4>
-            <div className="mb-5 h-0.5 w-8 rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#4DD4C5]" />
-            <p
-              className="mb-5 text-sm text-slate-500 leading-relaxed"
-              style={{ fontFamily: "var(--font-sans)" }}
-            >
-              Subscribe to our newsletter to get the latest updates and dental
-              care tips.
-            </p>
-            <div className="flex items-center gap-2 rounded-xl border border-[#1e9b8d]/20 bg-white px-3 py-2 shadow-sm transition-all focus-within:border-[#1e9b8d]/50 focus-within:shadow-[0_0_0_3px_rgba(30,155,141,0.08)]">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 bg-transparent text-sm text-slate-700 placeholder:text-slate-400 outline-none min-w-0"
-              />
-              <button
-                type="button"
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] text-white shadow-sm transition-all hover:scale-105 hover:shadow-[0_4px_12px_rgba(30,155,141,0.4)]"
-              >
-                <LuSend className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          </div> */}
         </div>
       </div>
 

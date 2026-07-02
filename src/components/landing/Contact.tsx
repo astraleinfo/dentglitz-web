@@ -211,6 +211,7 @@ export function Contact() {
                 </span>
               }
               className="transform-gpu mt-4 flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] py-3 text-sm font-bold text-white shadow-[0_4px_20px_rgba(30,155,141,0.35)] transition-all duration-300 hover:from-[#25b8a8] hover:to-[#344f8c] hover:shadow-[0_8px_32px_rgba(30,155,141,0.55)] sm:mt-5 sm:py-3.5"
+              trackingId="contact_section"
             />
           </div>
 
