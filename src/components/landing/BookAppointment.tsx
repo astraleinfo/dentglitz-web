@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import {
   LuUser, LuPhone, LuMail, LuCalendar, LuClock, LuMessageSquare,
-  LuChevronDown, LuCheckCircle, LuX, LuArrowRight, LuShieldCheck, LuStar, LuUsers, LuSparkles,
+  LuChevronDown, LuCircleCheck, LuX, LuArrowRight, LuShieldCheck, LuStar, LuUsers, LuSparkles,
 } from "react-icons/lu";
 import { FaTooth } from "react-icons/fa";
 
@@ -376,7 +376,7 @@ export function BookAppointment() {
             </button>
 
             <div className="relative mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-[#4DD4C5]/30 bg-[#4DD4C5]/10">
-              <LuCheckCircle className="h-10 w-10 text-[#4DD4C5]" />
+              <LuCircleCheck className="h-10 w-10 text-[#4DD4C5]" />
               <div className="absolute inset-0 rounded-full bg-[#4DD4C5]/10 blur-[12px]" />
             </div>
 

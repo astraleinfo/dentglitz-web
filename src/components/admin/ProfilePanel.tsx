@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import {
-  LuPencil, LuLock, LuMail, LuCheckCircle2, LuAlertCircle,
+  LuPencil, LuLock, LuMail, LuCircleCheckBig, LuCircleAlert,
   LuEye, LuEyeOff, LuShieldCheck,
 } from "react-icons/lu";
 import { api } from "@/lib/api";
@@ -57,9 +57,9 @@ function Toast({ ok, msg }: { ok: boolean; msg: string }) {
       }`}
     >
       {ok ? (
-        <LuCheckCircle2 className="shrink-0 text-base" />
+        <LuCircleCheckBig className="shrink-0 text-base" />
       ) : (
-        <LuAlertCircle className="shrink-0 text-base" />
+        <LuCircleAlert className="shrink-0 text-base" />
       )}
       {msg}
     </div>

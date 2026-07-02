@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LuArrowLeft, LuHome, LuSearch } from "react-icons/lu";
+import { LuArrowLeft, LuHouse, LuSearch } from "react-icons/lu";
 import { FaTooth, FaCalendarAlt } from "react-icons/fa";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
@@ -79,7 +79,7 @@ export default function NotFound() {
             className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(30,155,141,0.4)] transition-all hover:scale-[1.03]"
             style={{ fontFamily: "var(--font-heading)" }}
           >
-            <LuHome className="h-4 w-4" /> Back to Home
+            <LuHouse className="h-4 w-4" /> Back to Home
           </Link>
           <BookAppointmentButton
             label={<><FaCalendarAlt className="h-4 w-4" /> Book Appointment</>}

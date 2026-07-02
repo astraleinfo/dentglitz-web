@@ -1,0 +1,46 @@
+services:
+  web:
+    image: astraleinfo/dentglitz-web:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
+        NEXT_PUBLIC_CDN_URL: ${NEXT_PUBLIC_CDN_URL}
+        NEXT_PUBLIC_CLINIC_NAME: ${NEXT_PUBLIC_CLINIC_NAME}
+        NEXT_PUBLIC_TAGLINE: ${NEXT_PUBLIC_TAGLINE}
+        NEXT_PUBLIC_LOGO_URL: ${NEXT_PUBLIC_LOGO_URL}
+        NEXT_PUBLIC_PHONE: ${NEXT_PUBLIC_PHONE}
+        NEXT_PUBLIC_EMAIL: ${NEXT_PUBLIC_EMAIL}
+        NEXT_PUBLIC_ADDRESS: ${NEXT_PUBLIC_ADDRESS}
+        NEXT_PUBLIC_LOGO_BG_COLOR: ${NEXT_PUBLIC_LOGO_BG_COLOR}
+        NEXT_PUBLIC_THEME_PRIMARY: ${NEXT_PUBLIC_THEME_PRIMARY}
+        NEXT_PUBLIC_THEME_SECONDARY: ${NEXT_PUBLIC_THEME_SECONDARY}
+        NEXT_PUBLIC_BOOKING_LOGO_URL: ${NEXT_PUBLIC_BOOKING_LOGO_URL}
+        NEXT_PUBLIC_BOOKING_PANEL_FROM: ${NEXT_PUBLIC_BOOKING_PANEL_FROM}
+        NEXT_PUBLIC_BOOKING_PANEL_TO: ${NEXT_PUBLIC_BOOKING_PANEL_TO}
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:3000:3000"
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /app/.next/cache
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M

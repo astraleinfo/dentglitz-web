@@ -5,6 +5,8 @@
 const U = (id: string, w = 800, q = 75) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=${q}`;
 
+const CDN = (path: string) => `${process.env.NEXT_PUBLIC_CDN_URL}/${path}`;
+
 // ─────────────────────────────────────────────────────────
 //  Types
 // ─────────────────────────────────────────────────────────

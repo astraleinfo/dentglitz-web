@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import {
   LuArrowRight, LuShieldCheck, LuSmile, LuX, LuCheck,
-  LuActivity, LuAlertCircle, LuScissors, LuSparkles, LuAlignCenter, LuCalendar,
+  LuActivity, LuCircleAlert, LuScissors, LuSparkles, LuAlignCenter, LuCalendar,
 } from "react-icons/lu";
 import { FaTeeth, FaTeethOpen } from "react-icons/fa";
 import { GiTooth, GiToothbrush } from "react-icons/gi";
@@ -215,7 +215,7 @@ const services: Service[] = [
     barGradient: "from-[#1e9b8d] to-[#4DD4C5]",
   },
   {
-    icon: LuAlertCircle,
+    icon: LuCircleAlert,
     title: "Emergency Dental Care",
     desc: "Prompt treatment for severe toothache, dental trauma, swelling & abscesses, fractured teeth and lost restorations — available when you need us most.",
     detailIntro: "Prompt diagnosis and treatment for urgent dental conditions.",

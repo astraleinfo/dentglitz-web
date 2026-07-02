@@ -7,6 +7,7 @@ import { LuArrowRight, LuShieldCheck, LuUsers, LuStar, LuPhone } from "react-ico
 import { FaWhatsapp, FaTooth, FaCalendarAlt } from "react-icons/fa";
 import { socialLinks, clinicStats } from "@/config/clinic.data";
 import { media } from "@/config/media";
+import Image from "next/image";
 
 const trustBadges = [
   { icon: LuShieldCheck, label: "Experienced Specialists" },
@@ -86,10 +87,13 @@ export function Hero() {
         {/* ── Background: dark overlay + photo ── */}
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={media.heroBackground}
-            alt=""
-            className="h-full w-full object-cover object-center"
+            alt="background"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#071224]/97 via-[#071224]/90 to-[#071224]/55" />
           {/* <div className="absolute inset-0 bg-gradient-to-t from-[#071224]/90 via-transparent to-[#071224]/65" /> */}
