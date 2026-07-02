@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { IconType } from "react-icons";
 import {
-  LuCalendarCheck2, LuCalendarClock, LuUserCircle,
+  LuCalendarCheck2, LuCalendarClock, LuCircleUser,
   LuLogOut, LuChevronLeft, LuChevronRight,
 } from "react-icons/lu";
 import { FaSignOutAlt } from "react-icons/fa";
@@ -22,7 +22,7 @@ type Tab = "bookings" | "availability" | "profile";
 const NAV: { id: Tab; label: string; shortLabel: string; icon: IconType }[] = [
   { id: "bookings",     label: "Appointments", shortLabel: "Bookings", icon: LuCalendarCheck2 },
   { id: "availability", label: "Availability", shortLabel: "Hours",    icon: LuCalendarClock },
-  { id: "profile",      label: "My Profile",   shortLabel: "Profile",  icon: LuUserCircle },
+  { id: "profile",      label: "My Profile",   shortLabel: "Profile",  icon: LuCircleUser },
 ];
 
 function todayLabel() {

@@ -4,7 +4,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import DatePicker from "react-datepicker";
 import {
-  LuCalendarCheck2, LuCalendar, LuCalendarDays, LuXCircle,
+  LuCalendarCheck2, LuCalendar, LuCalendarDays, LuCircleX,
   LuPhone, LuX, LuSearch, LuFilter, LuDownload, LuClock,
   LuChevronLeft, LuChevronRight, LuChevronUp, LuChevronDown,
   LuChevronsUpDown, LuCalendarRange,
@@ -171,7 +171,7 @@ export function BookingsPanel() {
         <StatCard icon={LuCalendarCheck2} label="Total bookings"  value={stats?.all_count       ?? "—"} tone="secondary" />
         <StatCard icon={LuCalendar}       label="Confirmed"        value={stats?.confirmed_count ?? "—"} tone="primary" />
         <StatCard icon={LuCalendarDays}   label="Today"            value={stats?.today_count     ?? "—"} tone="amber" />
-        <StatCard icon={LuXCircle}        label="Cancelled"        value={stats?.cancelled_count ?? "—"} tone="rose" />
+        <StatCard icon={LuCircleX}        label="Cancelled"        value={stats?.cancelled_count ?? "—"} tone="rose" />
       </div>
 
       {/* Table card */}
