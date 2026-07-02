@@ -92,9 +92,9 @@ export default function UpdatesPage() {
             </span>
           </h1>
           <p className="max-w-xl text-lg text-white/60">
-            Dental health camps, conferences, and workshops we attend and organise — because great dental care extends beyond our clinic walls.
+            Free dental health camps and community initiatives we organise — because great dental care extends beyond our clinic walls.
           </p>
-          <p className="mt-3 text-sm text-white/35">{allUpdates.length} updates — {counts.Camp} camps · {counts.Event} events · {counts.Workshop} workshops</p>
+          <p className="mt-3 text-sm text-white/35">{counts.Camp} community {counts.Camp === 1 ? "camp" : "camps"}</p>
         </div>
       </section>
 
@@ -117,7 +117,7 @@ export default function UpdatesPage() {
           {/* Filters + Search row */}
           <div className="reveal mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-wrap gap-2">
-              {(["All", "Camp", "Event", "Workshop"] as const).map((f) => (
+              {(["All", "Camp"] as const).map((f) => (
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
@@ -150,13 +150,13 @@ export default function UpdatesPage() {
           {filtered.length === 0 ? (
             <div className="py-20 text-center text-slate-400">No updates match your filters.</div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-wrap justify-center gap-6">
               {filtered.map((post, i) => {
                 const ts = typeStyles[post.type];
                 return (
                   <article
                     key={post.title}
-                    className="reveal-zoom group flex flex-col overflow-hidden rounded-2xl border border-white/80 bg-white/82 shadow-[0_2px_16px_rgba(0,0,0,0.06)] backdrop-blur-sm transition-all duration-300 hover:border-[#2a487e]/20 hover:shadow-[0_12px_40px_rgba(42,72,126,0.12)]"
+                    className="reveal-zoom group flex w-full flex-col overflow-hidden rounded-2xl border border-white/80 bg-white/82 shadow-[0_2px_16px_rgba(0,0,0,0.06)] backdrop-blur-sm transition-all duration-300 hover:border-[#2a487e]/20 hover:shadow-[0_12px_40px_rgba(42,72,126,0.12)] sm:w-[360px]"
                     style={{ transitionDelay: `${i * 60}ms` }}
                   >
                     {/* Image */}
@@ -297,7 +297,7 @@ export default function UpdatesPage() {
                 <div className="mb-4 h-px bg-gradient-to-r from-[#1e9b8d]/30 via-[#1e9b8d]/10 to-transparent" />
                 <p className="mb-3 text-sm leading-relaxed text-slate-600">{selectedPost.description}</p>
                 {selectedPost.details && (
-                  <p className="text-sm leading-relaxed text-slate-500">{selectedPost.details}</p>
+                  <p className="whitespace-pre-line text-sm leading-relaxed text-slate-500">{selectedPost.details}</p>
                 )}
               </div>
               <div className="flex-shrink-0 border-t border-slate-100 px-6 py-4 bg-slate-50/60">

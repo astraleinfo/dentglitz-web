@@ -5,7 +5,9 @@
 const U = (id: string, w = 800, q = 75) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=${q}`;
 
-const CDN = (path: string) => `${process.env.NEXT_PUBLIC_CDN_URL}/${path}`;
+// Build a CDN URL. Encodes each path segment so spaces, "&", etc. are safe.
+export const CDN = (path: string) =>
+  `${process.env.NEXT_PUBLIC_CDN_URL}/${path.split("/").map(encodeURIComponent).join("/")}`;
 
 // ─────────────────────────────────────────────────────────
 //  Types
@@ -45,13 +47,13 @@ export interface UpdatePost {
 export const media = {
 
   // ── Static assets (files in /public) ──────────────────
-  heroBackground:  "/hero-background-new.png",
-  aboutBackground: "/about-background.png",
-  glowingTeeth:    "/glowing-teeth.png",
+  heroBackground:  CDN("website-background/hero-background-new.webp"),
+  aboutBackground: CDN("website-background/about-background.webp"),
+  glowingTeeth:    CDN("website-background/glowing-teeth.png"),
 
   // ── Feature / section images ───────────────────────────
   hero:       U("photo-1588776814546-1ffcf47267a5", 1400),
-  whyUs:      U("photo-1609840114035-3c981b782dfe", 900),
+  whyUs:      CDN("website-background/about-us.webp"),
   ctaPattern: U("photo-1606811841689-23dfddce3e95", 1200),
 
   // ── Raw gallery arrays (kept for backward compatibility) ─
@@ -98,12 +100,12 @@ export const media = {
   galleryItems: [
     // First 8 shown on landing page
     { img: "/images/gallery/IMG20241218202009.jpg",   label: "Treatment Room",              cat: "Clinic Interior" },
-    { img: "/images/gallery/IMG20250201185229.jpg",   label: "Full Smile Rehabilitation",   cat: "Treatments"      },
+    { img: CDN("gallery/gallery_img4.webp"),           label: "Full Smile Rehabilitation",   cat: "Treatments"      },
     { img: "/images/gallery/IMG_20260415_190154.jpg", label: "Dental Treatment in Progress",cat: "Treatments"      },
-    { img: "/images/gallery/IMG20241129201909.jpg",   label: "Crown Bridge Restoration",    cat: "Treatments"      },
+    { img: CDN("gallery/gallery_img3.webp"),           label: "Crown Bridge Restoration",    cat: "Treatments"      },
     { img: "/images/gallery/IMG20250324202450.jpg",   label: "Invisalign Clear Aligners",   cat: "Equipment"       },
-    { img: "/images/gallery/IMG20250405205426.jpg",   label: "Smile Makeover",              cat: "Treatments"      },
-    { img: "/images/gallery/IMG20241218202014.jpg",   label: "Dental Chair Setup",          cat: "Clinic Interior" },
+    { img: CDN("gallery/gallery_img2.webp"),           label: "Smile Makeover",              cat: "Treatments"      },
+    { img: CDN("gallery/gallery_img1.webp"),           label: "Dental Chair Setup",          cat: "Clinic Interior" },
     { img: "/images/gallery/IMG_20260412_143058.jpg", label: "Patient Consultation",        cat: "Happy Patients"  },
     // Extended gallery
     { img: "/images/gallery/IMG20241129201849.jpg",   label: "Dental Crown Result",         cat: "Treatments"      },
@@ -135,103 +137,67 @@ export const media = {
   transformations: [
     {
       id: 1,
-      label: "Crown & Bridge Restoration",
-      before: "/images/gallery/IMG20241129201727.jpg",
-      after:  "/images/gallery/IMG20241129201909.jpg",
-      quote: "\"The team at Dentglitz transformed my smile completely. Highly recommended!\" — Pooja M.",
-      tag:   "Crown & Bridge",
+      label: "Complete Denture",
+      before: CDN("Transformation/Complete Denture/complete_denture_before.webp"),
+      after:  CDN("Transformation/Complete Denture/complete_denture_after.webp"),
+      quote: "Full arch restored with a complete denture at Dentglitz — The Complete Dental Care.",
+      tag:   "Complete Denture",
     },
     {
       id: 2,
-      label: "Orthodontic Alignment",
-      before: "/images/gallery/IMG20250113203214.jpg",
-      after:  "/images/gallery/IMG20250113204606.jpg",
-      quote: "\"My crooked teeth are now perfectly aligned — the results exceeded my expectations!\" — Rahul K.",
-      tag:   "Orthodontics",
+      label: "Crown & Bridge Prosthodontics — Case 1",
+      before: CDN("Transformation/Crown & Bridge Prosthodontics/1/Crown_Bridge_Prosthodontics_1_before.webp"),
+      after:  CDN("Transformation/Crown & Bridge Prosthodontics/1/Crown_Bridge_Prosthodontics_1_after.webp"),
+      quote: "Missing teeth replaced with a fixed crown & bridge for a natural, confident smile.",
+      tag:   "Crown & Bridge I",
     },
     {
       id: 3,
-      label: "Smile Correction",
-      before: "/images/gallery/IMG20250211190027.jpg",
-      after:  "/images/gallery/IMG20250211193725.jpg",
-      quote: "\"I finally have the smile I always wanted. The Dentglitz team is truly exceptional!\" — Anjali R.",
-      tag:   "Smile Correction",
+      label: "Crown & Bridge Prosthodontics — Case 2",
+      before: CDN("Transformation/Crown & Bridge Prosthodontics/2/Crown_Bridge_Prosthodontics_2_before.webp"),
+      after:  CDN("Transformation/Crown & Bridge Prosthodontics/2/Crown_Bridge_Prosthodontics_2_after.webp"),
+      quote: "Another crown & bridge rehabilitation restoring function and aesthetics.",
+      tag:   "Crown & Bridge II",
+    },
+    {
+      id: 4,
+      label: "Fractured Tooth Restored with Composite",
+      before: CDN("Transformation/Fractured Tooth Restored with Composite/Fractured_Tooth_Restored_with_Composite_before.webp"),
+      after:  CDN("Transformation/Fractured Tooth Restored with Composite/Fractured_Tooth_Restored_with_Composite_after.webp"),
+      quote: "A chipped, fractured tooth rebuilt seamlessly with tooth-coloured composite.",
+      tag:   "Composite",
+    },
+    {
+      id: 5,
+      label: "Removable Partial Denture",
+      before: CDN("Transformation/Removable Partial Denture/Removable_Partial_Denture_before.webp"),
+      after:  CDN("Transformation/Removable Partial Denture/Removable_Partial_Denture_after.webp"),
+      quote: "Gaps restored with a comfortable, well-fitting removable partial denture.",
+      tag:   "Removable Denture",
+    },
+    {
+      id: 6,
+      label: "Upper Arch Rehabilitation",
+      before: CDN("Transformation/Upper Arch Rehabilitation/Upper_Arch_Rehabilitation_before.webp"),
+      after:  CDN("Transformation/Upper Arch Rehabilitation/Upper_Arch_Rehabilitation_after.webp"),
+      quote: "Complete upper arch rehabilitation for a fully renewed smile.",
+      tag:   "Full Arch",
     },
   ] as TransformationCase[],
 
   // ── Updates / events (landing section uses first 4; /updates page uses all) ──
   updates: [
     {
-      img: U("photo-1576091160550-2173dba999ef"),
+      img: CDN("Camp 2022/dental camp.webp"),
       type: "Camp" as EventType,
-      date: "June 15, 2025",
-      location: "Porur Community Hall, Chennai",
-      title: "Free Dental Health Camp — Porur",
-      description: "We organised a free dental screening camp for over 200 residents. Consultations, X-rays, and oral hygiene kits were provided at no charge.",
-      details: "Our team of four dentists and two hygienists spent the entire day screening patients of all ages. The most common findings were early-stage cavities and gum disease — both highly treatable when caught early. Every attendee received a personalised dental hygiene kit and a follow-up appointment offer at Dentglitz.",
-    },
-    {
-      img: U("photo-1540575467063-178a50c2df87"),
-      type: "Event" as EventType,
-      date: "April 7, 2025",
-      location: "Raj Convention Centre, Chennai",
-      title: "South India Dental Summit 2025",
-      description: "Our team attended the annual South India Dental Summit where the latest advances in implantology and cosmetic dentistry were showcased.",
-      details: "Three members of the Dentglitz clinical team participated in this two-day summit. Highlights included a live implant surgery demonstration, hands-on composite bonding workshops, and keynote sessions on AI-assisted diagnosis. We returned with practical insights that directly benefit our patients.",
-    },
-    {
-      img: U("photo-1588776814546-1ffcf47267a5"),
-      type: "Camp" as EventType,
-      date: "February 20, 2025",
-      location: "Karambakkam School Grounds",
-      title: "Children's Oral Health Drive",
-      description: "Partnering with local schools, we conducted smile check-ups and fluoride treatment sessions for over 150 children in the Karambakkam area.",
-      details: "Working alongside teachers and school nurses, our team made oral health fun for kids aged 5–14. We used interactive tools to demonstrate proper brushing and flossing, and provided fluoride varnish treatments. Parents received printed guides on diet and dental care for children.",
-    },
-    {
-      img: U("photo-1585435557343-3b092031a831"),
-      type: "Workshop" as EventType,
-      date: "November 12, 2024",
-      location: "Dentglitz Clinic, Porur",
-      title: "Smile Makeover Workshop",
-      description: "An interactive in-clinic workshop covering teeth whitening, veneers, and Invisalign — open to patients and aspiring dental students.",
-      details: "Fifteen participants joined us for a three-hour hands-on session. We demonstrated shade selection for veneers, walked through Invisalign ClinCheck simulations, and let participants try professional whitening trays. Q&A with our cosmetic specialist closed the event.",
-    },
-    {
-      img: U("photo-1576091160550-2173dba999ef"),
-      type: "Camp" as EventType,
-      date: "September 3, 2024",
-      location: "Valasaravakkam Grounds",
-      title: "Senior Citizens Dental Camp",
-      description: "A dedicated screening and awareness camp for residents above 60 years, focused on denture care, dry mouth, and oral cancer screening.",
-      details: "In partnership with a local senior citizens' association, we screened 90 elderly patients. Special emphasis was placed on oral cancer early detection — a simple but life-saving check that's often missed. Denture adjustments and relining consultations were offered on-site.",
-    },
-    {
-      img: U("photo-1540575467063-178a50c2df87"),
-      type: "Event" as EventType,
-      date: "July 20, 2024",
-      location: "ITC Grand Chola, Chennai",
-      title: "Invisalign Provider Conference",
-      description: "Our lead orthodontist attended the Invisalign Regional Provider Conference to stay current on aligner protocols and new product lines.",
-      details: "The conference covered the latest Invisalign system updates, including Palate Expander and Mandibular Advancement features. Our orthodontist completed two advanced training modules and is now certified to treat complex cases that were previously only manageable with traditional braces.",
-    },
-    {
-      img: U("photo-1585435557343-3b092031a831"),
-      type: "Workshop" as EventType,
-      date: "March 8, 2024",
-      location: "Dentglitz Clinic, Porur",
-      title: "Women's Dental Health Day",
-      description: "On International Women's Day, we hosted a free workshop addressing dental changes during pregnancy, menopause, and hormonal cycles.",
-      details: "Twenty women attended this special awareness session. Topics covered included pregnancy gingivitis, bone density and periodontal health post-menopause, and the link between stress hormones and bruxism. Every attendee received a complimentary dental check-up voucher.",
-    },
-    {
-      img: U("photo-1576091160550-2173dba999ef"),
-      type: "Camp" as EventType,
-      date: "January 26, 2024",
-      location: "Porur Lake Park",
-      title: "Republic Day Dental Awareness Camp",
-      description: "On Republic Day, we set up a public awareness stall at the Porur Lake Park event, reaching hundreds of local families.",
-      details: "Our team distributed toothbrushes, toothpaste samples, and dental health pamphlets to over 300 visitors. Quick oral health assessments were offered on the spot. The goal was simple: reach families who might not otherwise visit a dentist and break the barrier to accessing dental care.",
+      date: "14–15 August 2022",
+      location: "Dentglitz — Porur, Chennai",
+      title: "Free Dental Check-up & Oral Health Awareness Camp — August 2022",
+      description:
+        "Dentglitz – The Complete Dental Care successfully organized a Free Dental Camp on 14th and 15th August 2022 to promote oral health awareness and provide accessible dental care to the community.",
+      details:
+        "The camp offered free dental check-ups, personalized treatment consultations, and individualized treatment plans. Participants who attended with a camp slip received a 20% discount on selected dental treatments, including professional teeth cleaning (scaling), tooth-colored fillings (restorations), and tooth extractions, including impacted teeth. The special offer remained valid until 15th September 2022, subject to terms and conditions.\n\n" +
+        "The camp received an encouraging response from the community, with many patients benefiting from early diagnosis, preventive care, and timely treatment. The initiative reflected Dentglitz's commitment to improving oral health awareness and delivering quality dental care to the public.",
     },
   ] as UpdatePost[],
 };

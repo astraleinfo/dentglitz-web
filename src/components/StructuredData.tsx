@@ -9,6 +9,8 @@
  * Update `ratingValue` / `reviewCount` here when they change meaningfully.
  */
 
+import { media } from "@/config/media";
+
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://dentglitz.com";
 
@@ -46,7 +48,7 @@ export function StructuredData() {
     "@id": `${SITE_URL}/#clinic`,
     name: CLINIC_NAME,
     url: SITE_URL,
-    image: `${SITE_URL}/glowing-teeth.png`,
+    image: media.glowingTeeth,
     logo: `${SITE_URL}/dentglitz-logo.svg`,
     telephone: PHONE,
     priceRange: "₹₹",

@@ -127,27 +127,27 @@ export function Transformations() {
           </a>
         </div>
 
+        {/* Treatment filter tags — full width, centered */}
+        <div className="reveal mb-8 flex flex-wrap justify-center gap-2">
+          {cases.map((c, i) => (
+            <button
+              key={c.id}
+              onClick={() => setActive(i)}
+              className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-bold transition-all ${
+                active === i
+                  ? "bg-primary text-white shadow-md"
+                  : "border border-slate-200 text-slate-500 hover:border-primary/30 hover:text-primary"
+              }`}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+
         <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
 
-          {/* Left: filter tags + slider */}
+          {/* Left: slider */}
           <div className="reveal-left">
-            {/* Treatment filter tags */}
-            <div className="mb-5 flex flex-wrap gap-2">
-              {cases.map((c, i) => (
-                <button
-                  key={c.id}
-                  onClick={() => setActive(i)}
-                  className={`rounded-full px-4 py-1.5 text-xs font-bold transition-all ${
-                    active === i
-                      ? "bg-primary text-white shadow-md"
-                      : "border border-slate-200 text-slate-500 hover:border-primary/30 hover:text-primary"
-                  }`}
-                >
-                  {c.label}
-                </button>
-              ))}
-            </div>
-
             {/* Slider */}
             <BeforeAfterSlider before={current.before} after={current.after} heightClass="h-[220px] sm:h-[280px] md:h-[340px]" />
             <p className="mt-3 text-center text-xs text-white/40" style={{ fontFamily: "var(--font-sans)" }}>

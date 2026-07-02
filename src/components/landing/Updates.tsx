@@ -106,7 +106,7 @@ export function Updates() {
 
         {/* ── Filters ── */}
         <div className="reveal mb-8 flex flex-wrap gap-2">
-          {(["All", "Camp", "Event", "Workshop"] as const).map((f) => (
+          {(["All", "Camp"] as const).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
@@ -121,24 +121,24 @@ export function Updates() {
           ))}
         </div>
 
-        {/* ── Cards grid ── */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {/* ── Cards (centered feature cards) ── */}
+        <div className="mx-auto max-w-4xl space-y-6">
           {filtered.map((post, i) => {
             const ts = typeStyles[post.type];
             return (
               <article
                 key={post.title}
-                className="reveal-zoom group flex flex-col overflow-hidden rounded-2xl border border-white/80 bg-white/80 shadow-[0_2px_16px_rgba(0,0,0,0.06)] backdrop-blur-sm transition-all duration-300 hover:border-[#2a487e]/20 hover:shadow-[0_12px_40px_rgba(42,72,126,0.12)]"
+                className="reveal-zoom group flex w-full flex-col overflow-hidden rounded-2xl border border-white/80 bg-white/80 shadow-[0_2px_16px_rgba(0,0,0,0.06)] backdrop-blur-sm transition-all duration-300 hover:border-[#2a487e]/20 hover:shadow-[0_16px_48px_rgba(42,72,126,0.14)] sm:flex-row"
                 style={{ transitionDelay: `${i * 70}ms` }}
               >
                 {/* Image */}
-                <div className="relative h-44 shrink-0 overflow-hidden">
+                <div className="relative h-56 w-full shrink-0 overflow-hidden sm:h-auto sm:min-h-[260px] sm:w-[42%]">
                   <Image
                     src={post.img}
                     alt={post.title}
                     fill
                     className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    sizes="(max-width: 640px) 100vw, 400px"
                   />
                   {/* Type badge */}
                   <span
@@ -150,7 +150,7 @@ export function Updates() {
                 </div>
 
                 {/* Body */}
-                <div className="flex flex-1 flex-col gap-3 p-5">
+                <div className="flex flex-1 flex-col gap-3 p-6 sm:p-8">
                   {/* Meta */}
                   <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
                     <span className="flex items-center gap-1">
@@ -165,19 +165,19 @@ export function Updates() {
 
                   {/* Title */}
                   <h3
-                    className="text-base font-bold leading-snug text-[#071224] transition-colors group-hover:text-[#2a487e]"
+                    className="text-lg font-bold leading-snug text-[#071224] transition-colors group-hover:text-[#2a487e] sm:text-xl"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
                     {post.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="flex-1 text-sm leading-relaxed text-slate-500">{post.description}</p>
+                  <p className="text-sm leading-relaxed text-slate-500">{post.description}</p>
 
                   {/* Read more */}
                   <button
                     onClick={() => openModal(post)}
-                    className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-[#1e9b8d] transition-colors hover:text-[#0f7268]"
+                    className="mt-auto inline-flex w-fit items-center gap-1 text-xs font-semibold text-[#1e9b8d] transition-colors hover:text-[#0f7268]"
                   >
                     Read more <LuArrowRight className="h-3 w-3" />
                   </button>
@@ -251,7 +251,7 @@ export function Updates() {
                 <div className="mb-4 h-px bg-gradient-to-r from-[#1e9b8d]/30 via-[#1e9b8d]/10 to-transparent" />
                 <p className="mb-3 text-sm leading-relaxed text-slate-600">{selectedPost.description}</p>
                 {selectedPost.details && (
-                  <p className="text-sm leading-relaxed text-slate-500">{selectedPost.details}</p>
+                  <p className="whitespace-pre-line text-sm leading-relaxed text-slate-500">{selectedPost.details}</p>
                 )}
               </div>
 

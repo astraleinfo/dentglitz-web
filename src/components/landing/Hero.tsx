@@ -143,7 +143,7 @@ export function Hero() {
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center">
 
             {/* LEFT: Content */}
-            <div className="max-w-xl">
+            <div className="max-w-2xl">
 
               {/* Badge */}
               <div className="hero-reveal reveal mb-5 inline-flex items-center gap-2 rounded-full border border-[#4DD4C5]/30 bg-[#4DD4C5]/8 px-4 py-1.5 backdrop-blur-sm" >
@@ -173,8 +173,7 @@ export function Hero() {
                 className="hero-reveal reveal mb-8 text-base leading-relaxed text-black/75"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
-                Advanced dental care, cosmetic dentistry, implants, orthodontics,
-                and smile makeovers delivered with world-class technology.
+                Experience comprehensive dental care with advanced technology, personalized treatment and a commitment to creating healthy, confident&nbsp;smiles.
               </p>
 
               {/* CTA buttons */}

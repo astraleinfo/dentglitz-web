@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { PageLoader }   from "@/components/PageLoader";
 import { StructuredData } from "@/components/StructuredData";
 import { GTMPageView } from "@/components/GTMPageView";
+import { media } from "@/config/media";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -42,13 +43,13 @@ export const metadata: Metadata = {
       "Modern, painless dental care in Porur, Chennai. Implants, Invisalign, smile design and more. Book online today.",
     url: SITE_URL,
     locale: "en_IN",
-    images: [{ url: "/glowing-teeth.png", width: 1200, height: 630, alt: "Dentglitz Dental Care" }],
+    images: [{ url: media.glowingTeeth, width: 1200, height: 630, alt: "Dentglitz Dental Care" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Dentglitz — The Complete Dental Care",
     description: "Modern, painless dental care in Porur, Chennai. Book online today.",
-    images: ["/glowing-teeth.png"],
+    images: [media.glowingTeeth],
   },
   robots: {
     index: true,

@@ -1,5 +1,6 @@
 import { FaInstagram, FaFacebook, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 import type { IconType } from "react-icons";
+import { CDN } from "./media";
 
 export interface SocialLink {
   icon: IconType;
@@ -84,10 +85,9 @@ export const doctors: Doctor[] = [
     role: "Founder & Chief Dental Surgeon",
     qualification: "BDS - Bachelor of Dental Surgery",
     experience: "9+ Years",
-    avatar: "/images/gallery/Chimera.jpg",
+    avatar: CDN("doctors/Chimera.webp"),
     objectPosition: "center 40%",
     specialty: "Founder & Chief Dental Surgeon",
-    phone: "8248456752",
     membership: "Lifetime IDA (Indian Dental Association) Member",
     regNo: "25370",
     specializations: ["Esthetic Restoration", "Root Canal Treatment", "Kids Dentistry","Tooth Removal"],
@@ -97,7 +97,7 @@ export const doctors: Doctor[] = [
     role: "Prosthodontist & Implantologist",
     qualification: "MDS",
     experience: "3+ Years",
-    avatar: "/images/gallery/Jesima.jpg",
+    avatar: CDN("doctors/jesima.webp"),
     objectPosition: "center 20%",
     zoom: 1.4,
     specialty: "Prosthodontics & Implantology",
