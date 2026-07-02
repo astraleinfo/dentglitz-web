@@ -234,6 +234,7 @@ export default function UpdatesPage() {
                 </span>
               }
               className="flex items-center rounded-full border border-white/25 bg-white/8 px-7 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/15"
+              trackingId="updates_page"
             />
           </div>
         </div>

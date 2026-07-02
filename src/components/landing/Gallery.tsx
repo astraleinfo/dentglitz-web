@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { LuX, LuArrowRight, LuZoomIn, LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { media } from "@/config/media";
+import { trackButtonClick } from "@/lib/gtm";
 
 const categories = ["All", "Clinic Interior", "Treatments", "Equipment", "Happy Patients"];
 
@@ -98,6 +99,7 @@ export function Gallery() {
           {/* View full gallery link */}
           <a
             href="/gallery"
+            onClick={() => trackButtonClick("gallery_view_full")}
             className="shrink-0 inline-flex items-center gap-1.5 text-sm font-semibold text-[#1e9b8d] transition-colors hover:text-[#0f7268]"
           >
             View Full Gallery

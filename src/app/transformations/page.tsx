@@ -8,6 +8,7 @@ import { Footer } from "@/components/landing/Footer";
 import { BeforeAfterSlider } from "@/components/landing/Transformations";
 import { BookAppointmentButton } from "@/components/booking/BookAppointmentButton";
 import { media } from "@/config/media";
+import { trackButtonClick } from "@/lib/gtm";
 
 const cases = media.transformations;
 
@@ -149,9 +150,11 @@ export default function TransformationsPage() {
                 </span>
               }
               className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] px-7 py-3.5 text-sm font-bold text-white shadow-[0_4px_20px_rgba(30,155,141,0.4)] transition-all hover:scale-[1.03] sm:w-auto"
+              trackingId="transformations_page"
             />
             <a
               href="/gallery"
+              onClick={() => trackButtonClick("transformations_page_view_gallery")}
               className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/25 bg-white/8 px-7 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/15 sm:w-auto"
             >
               View Gallery <LuArrowRight className="h-4 w-4" />

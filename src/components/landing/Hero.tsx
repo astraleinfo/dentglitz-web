@@ -66,6 +66,7 @@ export function Hero() {
                      transition-all duration-300 hover:scale-[1.04]
                      hover:shadow-[0_6px_16px_rgba(0,0,0,0.15),_0_12px_40px_rgba(30,155,141,0.65)]
                      active:scale-[0.97]"
+          trackingId="hero_floating_mobile"
         />
       </div>
 
@@ -186,6 +187,7 @@ export function Hero() {
                     </span>
                   }
                   className="group flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] px-3 py-2.5 text-xs font-bold text-white shadow-[0_4px_16px_rgba(30,155,141,0.35)] transition-all duration-300 hover:from-[#25b8a8] hover:to-[#344f8c] hover:scale-[1.03] hover:shadow-[0_6px_28px_rgba(30,155,141,0.55)]"
+                  trackingId="hero_main"
                 />
                 <a
                   href="#services"

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { LuCalendar, LuMapPin, LuArrowRight, LuUsers, LuTent, LuX } from "react-icons/lu";
 import { media, type EventType, type UpdatePost } from "@/config/media";
+import { trackButtonClick } from "@/lib/gtm";
 
 // Landing section shows 4 most recent posts
 const updates = media.updates.slice(0, 4);
@@ -93,6 +94,7 @@ export function Updates() {
 
           <a
             href="/updates"
+            onClick={() => trackButtonClick("updates_view_all")}
             className="shrink-0 inline-flex items-center gap-1.5 text-sm font-semibold text-[#1e9b8d] transition-colors hover:text-[#0f7268]"
           >
             View All Updates

@@ -9,7 +9,6 @@ import { FaTooth, FaAward, FaUserMd } from "react-icons/fa";
 import { FaCalendarAlt } from "react-icons/fa";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
-import { AnimatedParticles } from "@/components/landing/AnimatedParticles";
 import { BookAppointmentButton } from "@/components/booking/BookAppointmentButton";
 import { media } from "@/config/media";
 import { clinicStats, clinicValues, milestones, type ValueIconKey } from "@/config/clinic.data";
@@ -89,7 +88,6 @@ export default function AboutPage() {
 
   return (
     <div ref={pageRef}>
-      <AnimatedParticles />
       <Navbar lightText />
 
       {/* ── Hero banner ── */}
@@ -118,6 +116,7 @@ export default function AboutPage() {
               <BookAppointmentButton
                 label={<><FaCalendarAlt className="h-4 w-4" /> Book Appointment</>}
                 className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] px-6 py-3 text-sm font-semibold text-white shadow-[0_4px_16px_rgba(30,155,141,0.4)] transition-all hover:scale-[1.03]"
+                trackingId="about_hero"
               />
               <a
                 href="/#contact"
@@ -354,6 +353,7 @@ export default function AboutPage() {
               <BookAppointmentButton
                 label={<><FaCalendarAlt className="h-4 w-4" /> Book Appointment</>}
                 className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(30,155,141,0.4)] transition-all hover:scale-[1.03]"
+                trackingId="about_cta"
               />
               <a
                 href="/#contact"

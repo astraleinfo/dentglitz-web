@@ -5,6 +5,7 @@ import Image from "next/image";
 import { LuArrowRight } from "react-icons/lu";
 import { BookAppointmentButton } from "@/components/booking/BookAppointmentButton";
 import { media } from "@/config/media";
+import { trackButtonClick } from "@/lib/gtm";
 
 const cases = media.transformations;
 
@@ -116,6 +117,7 @@ export function Transformations() {
           </p>
           <a
             href="/transformations"
+            onClick={() => trackButtonClick("transformations_view_all")}
             className="shrink-0 inline-flex items-center gap-1.5 text-sm font-semibold text-[#1e9b8d] transition-colors hover:text-[#0f7268]"
           >
             View All Transformations
@@ -193,6 +195,7 @@ export function Transformations() {
                 </span>
               }
               className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-bold text-white shadow-[0_8px_28px_rgba(30,155,141,0.4)] transition-all hover:scale-[1.02] hover:shadow-[0_12px_36px_rgba(30,155,141,0.55)]"
+              trackingId="transformations_section"
             />
           </div>
         </div>

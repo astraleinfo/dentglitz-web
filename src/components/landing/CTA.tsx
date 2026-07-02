@@ -73,6 +73,7 @@ export function CTA() {
                   </span>
                 }
                 className="transform-gpu inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] px-6 py-3 text-sm font-bold text-white shadow-[0_4px_20px_rgba(30,155,141,0.40)] transition-all duration-300 hover:from-[#25b8a8] hover:to-[#344f8c] hover:shadow-[0_8px_32px_rgba(30,155,141,0.60)]"
+                trackingId="cta_section"
               />
               <a
                 href={`https://wa.me/${cfg.phone.replace(/\D/g, "")}`}

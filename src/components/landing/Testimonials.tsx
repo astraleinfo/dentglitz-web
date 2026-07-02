@@ -34,64 +34,6 @@ function StarRow({ count }: { count: number }) {
   );
 }
 
-// ── FAQ Accordion ─────────────────────────────────────────────
-const faqs = [
-  {
-    q: "How much do dental implants cost at Dentglitz?",
-    a: "The cost of dental implants varies depending on the number of implants, bone condition, and type of implant used. We offer a free consultation where we provide a transparent, itemized treatment plan with no hidden costs. Our implants start from ₹25,000 per tooth.",
-  },
-  {
-    q: "Is teeth whitening safe? How long does it last?",
-    a: "Yes, professional teeth whitening at Dentglitz is completely safe and supervised by our specialists. Results typically last 12–24 months with proper care. We offer both in-chair sessions (1–2 hours) and take-home kits for your convenience.",
-  },
-  {
-    q: "Do you offer emergency dental treatment?",
-    a: "Absolutely! We offer same-day emergency appointments for toothaches, broken teeth, dental trauma, and lost fillings or crowns. Call our emergency line and we'll see you as soon as possible — usually within the hour.",
-  },
-  {
-    q: "How can I book an appointment?",
-    a: "You can book an appointment via our online form on this page, by calling us directly, or by sending a WhatsApp message. We'll confirm your booking within 30 minutes and send reminders before your visit.",
-  },
-  {
-    q: "What makes Dentglitz different from other dental clinics?",
-    a: "Dentglitz combines luxury-level patient experience with cutting-edge clinical expertise. We use the latest technology (3D CBCT, digital scans, laser dentistry), have a multi-specialist team, and focus on pain-free, personalized care — all under one roof.",
-  },
-  {
-    q: "Is there parking available at the clinic?",
-    a: "Yes, we have dedicated parking available for patients. Our clinic is also accessible by public transport and is located in a convenient, central location. Contact us for detailed directions.",
-  },
-];
-
-function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div
-      className={`rounded-2xl border transition-all duration-300 ${open ? "border-primary/30 bg-primary/5 shadow-sm" : "border-slate-100 bg-white hover:border-primary/20"}`}
-    >
-      <button
-        className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-      >
-        <span className="flex items-center gap-3">
-          <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <span className="text-sm font-bold text-slate-900" style={{ fontFamily: "var(--font-heading)" }}>{q}</span>
-        </span>
-        <LuChevronDown
-          className={`h-5 w-5 flex-shrink-0 text-primary transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-        />
-      </button>
-      <div className={`faq-answer ${open ? "open" : ""}`}>
-        <p className="px-6 pb-5 text-sm leading-relaxed text-slate-500" style={{ fontFamily: "var(--font-sans)" }}>
-          {a}
-        </p>
-      </div>
-    </div>
-  );
-}
-
 function ReviewCard({ r, onOpen }: { r: Review; onOpen: (r: Review) => void }) {
   const isLong = r.text.length > 150;
   return (

@@ -84,6 +84,7 @@ export default function NotFound() {
           <BookAppointmentButton
             label={<><FaCalendarAlt className="h-4 w-4" /> Book Appointment</>}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/8 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/15"
+            trackingId="404_page"
           />
         </div>
 
