@@ -65,6 +65,19 @@ function redirectToLogin() {
   }
 }
 
+/** Build a friendly message from a 429 response's Retry-After header (seconds). */
+function rateLimitMessage(res: Response): string {
+  const retryAfter = Number(res.headers.get("Retry-After"));
+  if (!retryAfter || retryAfter <= 0) {
+    return "Too many attempts. Please try again shortly.";
+  }
+  const wait =
+    retryAfter < 60
+      ? `${retryAfter} second${retryAfter === 1 ? "" : "s"}`
+      : `${Math.ceil(retryAfter / 60)} minute${Math.ceil(retryAfter / 60) === 1 ? "" : "s"}`;
+  return `Too many attempts. Please try again in ${wait}.`;
+}
+
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -80,6 +93,10 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (res.status === 401) {
     redirectToLogin();
     throw new Error("Session expired. Please log in again.");
+  }
+
+  if (res.status === 429) {
+    throw new Error(rateLimitMessage(res));
   }
 
   if (!res.ok) {
@@ -142,6 +159,7 @@ export const api = {
       },
       body: form.toString(),
     });
+    if (res.status === 429) throw new Error(rateLimitMessage(res));
     if (!res.ok) throw new Error("Incorrect email or password");
     return res.json();
   },
