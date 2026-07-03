@@ -110,7 +110,7 @@ export default function AboutPage() {
               </span>
             </h1>
             <p className="text-lg leading-relaxed text-white/60">
-              Serving the Porur community since 2022 — delivering advanced dental care with warmth, precision, and a genuine commitment to your smile.
+              Serving the Porur community since 2021 — delivering advanced dental care with warmth, precision, and a genuine commitment to your smile.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <BookAppointmentButton
@@ -190,7 +190,7 @@ export default function AboutPage() {
                 <div className="mb-5 h-0.5 w-12 rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#4DD4C5]" />
                 <div className="space-y-4 text-base leading-relaxed text-slate-500">
                   <p>
-                    At Dentglitz, we believe every smile tells a story. Founded in 2009 by Dr. Aravind Kumar, our clinic
+                    At Dentglitz, we believe every smile tells a story. Founded in 2021 by Dr. Aravind Kumar, our clinic
                     was built on a simple promise: exceptional dental care delivered with genuine warmth, in an environment
                     where patients feel truly at ease.
                   </p>
@@ -210,10 +210,7 @@ export default function AboutPage() {
                     <LuMapPin className="h-4 w-4 text-[#1e9b8d]" />
                     Porur, Chennai
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-slate-500">
-                    <LuCalendar className="h-4 w-4 text-[#1e9b8d]" />
-                    Mon – Sat · 9 AM – 8 PM
-                  </div>
+
                 </div>
               </div>
             </div>

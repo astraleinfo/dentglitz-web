@@ -8,7 +8,7 @@ import { clinicStats } from "@/config/clinic.data";
 
 const stats = [
   { target: clinicStats.yearsOfExperience,    suffix: "+", label: "Years of Experience",  sub: "Our doctors' clinical expertise", icon: FaAward },
-  { target: clinicStats.yearsInService,        suffix: "+", label: "Years of Service",     sub: "Serving Porur since 2022",        icon: FaCalendarAlt },
+  { target: clinicStats.yearsInService,        suffix: "+", label: "Years of Service",     sub: "Serving Porur since 2021",        icon: FaCalendarAlt },
   { target: clinicStats.doctorsCount,          suffix: "+", label: "Specialized Doctors",  sub: "Experienced professionals",       icon: FaUserMd },
   { target: clinicStats.happyPatients,         suffix: "+", label: "Happy Patients",       sub: "Smiles transformed with care",    icon: LuUsers },
   { target: clinicStats.satisfactionPercent,   suffix: "%", label: "Patient Satisfaction", sub: "Your trust is our success",       icon: LuShieldCheck },
