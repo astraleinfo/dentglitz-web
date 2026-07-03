@@ -45,7 +45,7 @@ export function Hero() {
 
       {/* ── Floating WhatsApp ── */}
       <a
-        href={`https://wa.me/${cfg.phone.replace(/\D/g, "")}`}
+        href={`https://wa.me/${cfg.whatsappNumber.replace(/\D/g, "")}`}
         aria-label="WhatsApp"
         className="fixed bottom-6 right-6 z-[60] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_8px_30px_rgba(37,211,102,0.5)] transition-all hover:scale-110 hover:shadow-[0_12px_40px_rgba(37,211,102,0.6)] animate-glow-ring"
       >

@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Dentglitz — The Complete Dental Care",
+    name: "Dentglitz - The Complete Dental Care",
     short_name: "Dentglitz",
     description:
       "Modern, painless dental care in Porur, Chennai. Implants, Invisalign, smile design and more.",

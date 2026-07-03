@@ -68,7 +68,7 @@ export function Contact() {
       iconBg: "bg-[#25D366]/10",
       iconBorder: "border-[#25D366]/25",
       iconColor: "text-[#25D366]",
-      href: `https://wa.me/${cfg.phone.replace(/\D/g, "")}`,
+      href: `https://wa.me/${cfg.whatsappNumber.replace(/\D/g, "")}`,
     },
     {
       icon: FaEnvelope,

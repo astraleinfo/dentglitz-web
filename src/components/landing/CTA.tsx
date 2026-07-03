@@ -76,7 +76,7 @@ export function CTA() {
                 trackingId="cta_section"
               />
               <a
-                href={`https://wa.me/${cfg.phone.replace(/\D/g, "")}`}
+                href={`https://wa.me/${cfg.whatsappNumber.replace(/\D/g, "")}`}
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/8 px-6 py-3 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/35 hover:bg-white/15"
               >
                 <FaWhatsapp className="h-4 w-4 text-[#25D366]" />

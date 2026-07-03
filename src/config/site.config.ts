@@ -20,6 +20,7 @@ export interface SiteConfig {
   clinicName: string;
   tagline: string;
   phone: string;
+  whatsappNumber: string;
   email: string;
   address: string;
   logoUrl: string;
@@ -46,6 +47,7 @@ export const defaultConfig: SiteConfig = {
   logoUrl:     process.env.NEXT_PUBLIC_LOGO_URL       ?? "/dentglitz-logo.svg",
   logoBgColor: process.env.NEXT_PUBLIC_LOGO_BG_COLOR  ?? "#f5deb3",
   phone:      process.env.NEXT_PUBLIC_PHONE          ?? "+91 8248456752",
+  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? process.env.NEXT_PUBLIC_PHONE ?? "+91 8248456752",
   email:      process.env.NEXT_PUBLIC_EMAIL          ?? "dentglitz@gmail.com",
   address:    process.env.NEXT_PUBLIC_ADDRESS        ?? "1A, Kambar St, near Grace matriculation higher secondary school, Karambakkam, Ponni Nagar, Porur, Chennai, Tamil Nadu 600116",
   theme: {
