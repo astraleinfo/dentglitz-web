@@ -4,7 +4,6 @@ import {
   FaPhoneAlt,
   FaEnvelope,
   FaMapMarkerAlt,
-  FaClock,
   FaTooth,
   FaHeart,
 } from "react-icons/fa";
@@ -259,19 +258,6 @@ export function Footer() {
                 <span className="text-sm text-slate-600 leading-relaxed">
                   {cfg.address}
                 </span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#1e9b8d]/20 bg-white shadow-sm">
-                  <FaClock className="h-3.5 w-3.5 text-[#1e9b8d]" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-600">
-                    Mon - Sat: {cfg.workingHours.start} - {cfg.workingHours.end}
-                  </p>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    Sunday: Closed
-                  </p>
-                </div>
               </li>
             </ul>
           </div>

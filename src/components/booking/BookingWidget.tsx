@@ -65,16 +65,17 @@ function groupByDay(slots: Slot[]): Record<string, Slot[]> {
 }
 
 const fmtDay = (iso: string) =>
-  new Date(iso + "T00:00:00").toLocaleDateString(undefined, {
+  new Date(iso + "T00:00:00").toLocaleDateString("en-IN", {
     weekday: "short",
     day: "numeric",
     month: "short",
   });
 
 const fmtTime = (iso: string) =>
-  new Date(iso).toLocaleTimeString(undefined, {
+  new Date(iso).toLocaleTimeString("en-IN", {
     hour: "2-digit",
     minute: "2-digit",
+    hour12: true, // always 12-hour am/pm, regardless of server/browser locale
   });
 
 export function BookingWidget({ onClose }: { onClose?: () => void }) {
