@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
-  LuLinkedin, LuInstagram, LuMail, LuPhone, LuX, LuCheck,
+  LuPhone, LuX, LuCheck,
   LuCalendar, LuBriefcase, LuBadgeCheck,
 } from "react-icons/lu";
 import { doctors, type Doctor } from "@/config/clinic.data";
@@ -93,25 +93,6 @@ export function Doctors() {
                     />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-secondary/90 via-secondary/40 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
-
-                  {/* Social icons on hover */}
-                  <div className="absolute inset-x-0 bottom-5 flex justify-center gap-2.5 translate-y-6 opacity-0 transition-all duration-400 group-hover:translate-y-0 group-hover:opacity-100">
-                    {[
-                      { Icon: LuLinkedin,  label: "LinkedIn" },
-                      { Icon: LuInstagram, label: "Instagram" },
-                      { Icon: LuMail,      label: "Email" },
-                    ].map(({ Icon, label }) => (
-                      <a
-                        key={label}
-                        href="#"
-                        aria-label={label}
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/40 hover:scale-110"
-                      >
-                        <Icon className="h-4 w-4" />
-                      </a>
-                    ))}
-                  </div>
 
                   {/* Specialty badge */}
                   <div className="absolute top-3 left-3 rounded-full bg-primary/90 px-3 py-1 text-[10px] font-bold text-white backdrop-blur-sm">

@@ -1,4 +1,4 @@
-import { FaInstagram, FaFacebook, FaLinkedinIn, FaYoutube } from "react-icons/fa";
+import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import type { IconType } from "react-icons";
 import { CDN } from "./media";
 
@@ -9,10 +9,8 @@ export interface SocialLink {
 }
 
 export const socialLinks: SocialLink[] = [
-  { icon: FaInstagram,  href: "#", label: "Instagram" },
-  { icon: FaFacebook,   href: "#", label: "Facebook" },
-  { icon: FaLinkedinIn, href: "#", label: "LinkedIn" },
-  { icon: FaYoutube,    href: "#", label: "YouTube" },
+  { icon: FaInstagram,  href: "https://www.instagram.com/dentglitz?igsh=bXJxdmc5M2F6ZW10", label: "Instagram" },
+  { icon: FaLinkedinIn, href: "https://www.linkedin.com/in/dr-chimera-jokkin-b1a404203?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", label: "LinkedIn" },
 ];
 
 export const clinicStats = {
@@ -55,11 +53,11 @@ export interface Milestone {
 }
 
 export const milestones: Milestone[] = [
-  { year: "2009", title: "Clinic Founded",    desc: "Dentglitz opened its doors in Porur, Chennai with a single mission: make quality dental care accessible to all." },
-  { year: "2013", title: "First Expansion",   desc: "Added a dedicated cosmetic dentistry suite and welcomed our first specialist prosthodontist." },
-  { year: "2017", title: "Digital Upgrade",   desc: "Full transition to digital X-rays and intraoral cameras, reducing patient radiation by 80%." },
-  { year: "2021", title: "1000+ Smiles",      desc: "Celebrated transforming over a thousand smiles — a milestone built purely on patient trust and word-of-mouth." },
-  { year: "2025", title: "Premium Redesign",  desc: "Opened our upgraded, fully air-conditioned facility with a new patient lounge and modern treatment bays." },
+  { year: "2021", title: "Clinic Founded",   desc: "Dentglitz opened its doors in Porur, Chennai with a single mission: make quality dental care accessible to all." },
+  { year: "2022", title: "Specialist Team",  desc: "Welcomed our prosthodontist & implantologist and added a dedicated cosmetic dentistry suite." },
+  { year: "2023", title: "Digital Upgrade",  desc: "Adopted digital X-rays and intraoral cameras for precise, low-radiation diagnosis and treatment." },
+  { year: "2024", title: "1000+ Smiles",     desc: "Celebrated transforming over a thousand smiles — a milestone built purely on patient trust and word-of-mouth." },
+  { year: "2025", title: "1500+ Smiles",     desc: "Crossed 1,500 happy patients and opened our upgraded, fully air-conditioned facility with a modern patient lounge." },
 ];
 
 export interface Doctor {

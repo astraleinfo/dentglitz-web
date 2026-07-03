@@ -247,7 +247,7 @@ export default function AboutPage() {
                 className="text-2xl font-extrabold leading-[1.12] text-[#071224] sm:text-3xl lg:text-4xl xl:text-[2.75rem]"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                A Decade of{" "}
+                A Journey of{" "}
                 <span className="bg-gradient-to-r from-[#2a487e] to-[#1e9b8d] bg-clip-text text-transparent">
                   Growing Smiles
                 </span>

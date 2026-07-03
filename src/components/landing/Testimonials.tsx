@@ -169,9 +169,9 @@ export function Testimonials() {
           {/* Infinite auto-scroll carousel */}
           <div className="relative reveal overflow-hidden">
             {/* Left fade */}
-            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 bg-gradient-to-r from-[#F5F7FA] to-transparent" />
+            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-8 sm:w-24 bg-gradient-to-r from-[#F5F7FA] to-transparent" />
             {/* Right fade */}
-            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-[#F5F7FA] to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-8 sm:w-24 bg-gradient-to-l from-[#F5F7FA] to-transparent" />
 
             <div className="flex gap-5 animate-scroll-x marquee-track w-max">
               {doubled.map((r, i) => (

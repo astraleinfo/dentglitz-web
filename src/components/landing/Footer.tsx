@@ -154,6 +154,8 @@ export function Footer() {
                 <a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   onClick={() => trackButtonClick(`footer_social_${label.toLowerCase().replace(/\s+/g, "_")}`)}
                   className="flex h-9 w-9 items-center justify-center rounded-full border border-[#1e9b8d]/25 bg-white text-[#1e9b8d] shadow-sm transition-all duration-300 hover:border-[#1e9b8d] hover:bg-[#1e9b8d] hover:text-white hover:scale-110 hover:shadow-[0_4px_16px_rgba(30,155,141,0.3)]"

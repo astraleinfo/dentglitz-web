@@ -20,6 +20,7 @@ type ContactCard = {
   iconBorder: string;
   iconColor: string;
   tooltip?: string;
+  href?: string;
 };
 
 export function Contact() {
@@ -49,6 +50,7 @@ export function Contact() {
       iconBorder: "border-[#1e9b8d]/25",
       iconColor: "text-[#1e9b8d]",
       tooltip: cfg.address,
+      href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cfg.address)}`,
     },
     {
       icon: FaPhoneAlt,
@@ -57,6 +59,7 @@ export function Contact() {
       iconBg: "bg-[#2a487e]/10",
       iconBorder: "border-[#2a487e]/25",
       iconColor: "text-[#2a487e]",
+      href: `tel:${cfg.phone.replace(/\s+/g, "")}`,
     },
     {
       icon: FaWhatsapp,
@@ -65,6 +68,7 @@ export function Contact() {
       iconBg: "bg-[#25D366]/10",
       iconBorder: "border-[#25D366]/25",
       iconColor: "text-[#25D366]",
+      href: `https://wa.me/${cfg.phone.replace(/\D/g, "")}`,
     },
     {
       icon: FaEnvelope,
@@ -73,6 +77,7 @@ export function Contact() {
       iconBg: "bg-[#4DD4C5]/12",
       iconBorder: "border-[#4DD4C5]/30",
       iconColor: "text-[#1e9b8d]",
+      href: `mailto:${cfg.email}`,
     },
   ];
 
@@ -147,6 +152,7 @@ export function Contact() {
                   iconBorder,
                   iconColor,
                   tooltip,
+                  href,
                 }) => (
                   <div key={label} className="group relative">
 
@@ -170,7 +176,10 @@ export function Contact() {
                       </div>
                     )}
 
-                    <div
+                    <a
+                      href={href}
+                      target={href?.startsWith("http") ? "_blank" : undefined}
+                      rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
                       className="relative flex items-center gap-2.5 overflow-hidden rounded-xl border border-white/80 bg-white/65 p-3 backdrop-blur-sm shadow-[0_2px_16px_rgba(0,0,0,0.05)] transition-all duration-300 sm:gap-3 sm:rounded-2xl sm:p-4 hover:-translate-y-0.5 hover:border-[#1e9b8d]/25 hover:bg-white/85 hover:shadow-[0_12px_40px_rgba(30,155,141,0.10)]"
                     >
                       {/* Icon */}
@@ -195,7 +204,7 @@ export function Contact() {
                           {value}
                         </p>
                       </div>
-                    </div>
+                    </a>
                   </div>
                 ),
               )}

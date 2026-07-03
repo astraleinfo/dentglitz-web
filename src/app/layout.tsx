@@ -20,7 +20,7 @@ const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Dentglitz — The Complete Dental Care | Dental Clinic in Porur, Chennai",
+    default: "Dentglitz - The Complete Dental Care | Dental Clinic in Porur, Chennai",
     template: "%s | Dentglitz Dental Care",
   },
   description:
