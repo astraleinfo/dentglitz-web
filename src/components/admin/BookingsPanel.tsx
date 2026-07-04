@@ -7,7 +7,8 @@ import {
   LuCalendarCheck2, LuCalendar, LuCalendarDays, LuCircleX,
   LuPhone, LuX, LuSearch, LuFilter, LuDownload, LuClock,
   LuChevronLeft, LuChevronRight, LuChevronUp, LuChevronDown,
-  LuChevronsUpDown, LuCalendarRange,
+  LuChevronsUpDown, LuCalendarRange, LuCheckCheck, LuCircleCheckBig,
+  LuTriangleAlert, LuUserX, LuCalendarClock,
 } from "react-icons/lu";
 
 import { api } from "@/lib/api";
@@ -35,8 +36,9 @@ const toLocalDate = (d: Date) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
 const APPT_TYPE_LABEL: Record<AppointmentType, string> = {
-  general:  "General",
-  extended: "Extended",
+  general:   "General",
+  extended:  "Extended",
+  emergency: "Emergency",
 };
 
 type SortCol = "start_time" | "created_at" | "patient_name" | "status";
@@ -143,6 +145,36 @@ export function BookingsPanel() {
     });
   }
 
+  function complete(b: Booking) {
+    setModal({
+      title: "Mark as Completed",
+      message: `Mark ${b.patient.name}'s appointment as completed? The patient will be notified.`,
+      confirmLabel: "Yes, Complete",
+      type: "info",
+      onConfirm: async () => {
+        setModal(null);
+        await api.adminSetStatus(b.id, "completed");
+        setParams((p) => ({ ...p })); // trigger refetch
+      },
+      onCancel: () => setModal(null),
+    });
+  }
+
+  function markNoShow(b: Booking) {
+    setModal({
+      title: "Mark as No-show",
+      message: `Mark ${b.patient.name} as a no-show? This is an internal record — the patient will not be notified.`,
+      confirmLabel: "Yes, No-show",
+      type: "info",
+      onConfirm: async () => {
+        setModal(null);
+        await api.adminSetStatus(b.id, "no_show");
+        setParams((p) => ({ ...p })); // trigger refetch
+      },
+      onCancel: () => setModal(null),
+    });
+  }
+
   async function handleExport() {
     setExporting(true);
     try {
@@ -167,10 +199,12 @@ export function BookingsPanel() {
     <div className="space-y-4 sm:space-y-6">
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
         <StatCard icon={LuCalendarCheck2} label="Total bookings"  value={stats?.all_count       ?? "—"} tone="secondary" />
         <StatCard icon={LuCalendar}       label="Confirmed"        value={stats?.confirmed_count ?? "—"} tone="primary" />
         <StatCard icon={LuCalendarDays}   label="Today"            value={stats?.today_count     ?? "—"} tone="amber" />
+        <StatCard icon={LuCheckCheck}     label="Completed"        value={stats?.completed_count ?? "—"} tone="emerald" />
+        <StatCard icon={LuUserX}          label="No-show"          value={stats?.no_show_count   ?? "—"} tone="slate" />
         <StatCard icon={LuCircleX}        label="Cancelled"        value={stats?.cancelled_count ?? "—"} tone="rose" />
       </div>
 
@@ -224,6 +258,8 @@ export function BookingsPanel() {
                 >
                   <option value="">All status</option>
                   <option value="confirmed">Confirmed</option>
+                  <option value="completed">Completed</option>
+                  <option value="no_show">No-show</option>
                   <option value="cancelled">Cancelled</option>
                   <option value="rescheduled">Rescheduled</option>
                 </select>
@@ -348,23 +384,25 @@ export function BookingsPanel() {
 
                         {/* Actions */}
                         <td className="px-4 py-4">
-                          {b.status !== "cancelled" && (
+                          {b.status === "confirmed" ? (
                             <div className="flex justify-end gap-1.5">
-                              <button
-                                type="button"
-                                onClick={() => setRescheduling(b)}
-                                className="rounded-lg border border-primary/20 bg-primary/8 px-3 py-1.5 text-xs font-semibold text-primary transition hover:bg-primary hover:text-white"
-                              >
-                                Reschedule
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => cancel(b)}
-                                className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-500 transition hover:bg-rose-500 hover:text-white"
-                              >
-                                Cancel
-                              </button>
+                              <ActionIcon tone="emerald" title="Mark completed" onClick={() => complete(b)}>
+                                <LuCircleCheckBig />
+                              </ActionIcon>
+                              {b.appointment_type !== "emergency" && (
+                                <ActionIcon tone="primary" title="Reschedule" onClick={() => setRescheduling(b)}>
+                                  <LuCalendarClock />
+                                </ActionIcon>
+                              )}
+                              <ActionIcon tone="slate" title="Mark no-show" onClick={() => markNoShow(b)}>
+                                <LuUserX />
+                              </ActionIcon>
+                              <ActionIcon tone="rose" title="Cancel" onClick={() => cancel(b)}>
+                                <LuCircleX />
+                              </ActionIcon>
                             </div>
+                          ) : (
+                            <div className="text-right text-xs font-medium text-slate-300">—</div>
                           )}
                         </td>
                       </tr>
@@ -407,21 +445,37 @@ export function BookingsPanel() {
                       </span>
                       <ApptTypePill type={b.appointment_type} startTime={b.start_time} endTime={b.end_time} />
                     </div>
-                    {b.status !== "cancelled" && (
-                      <div className="mt-3 flex gap-2">
+                    {b.status === "confirmed" && (
+                      <div className="mt-3 grid grid-cols-2 gap-2">
                         <button
                           type="button"
-                          onClick={() => setRescheduling(b)}
-                          className="flex-1 rounded-lg border border-primary/20 bg-primary/8 py-2 text-xs font-semibold text-primary transition hover:bg-primary hover:text-white"
+                          onClick={() => complete(b)}
+                          className="flex items-center justify-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 py-2 text-xs font-semibold text-emerald-600 transition hover:bg-emerald-600 hover:text-white"
                         >
-                          Reschedule
+                          <LuCircleCheckBig className="text-sm" /> Complete
+                        </button>
+                        {b.appointment_type !== "emergency" && (
+                          <button
+                            type="button"
+                            onClick={() => setRescheduling(b)}
+                            className="flex items-center justify-center gap-1.5 rounded-lg border border-primary/20 bg-primary/8 py-2 text-xs font-semibold text-primary transition hover:bg-primary hover:text-white"
+                          >
+                            <LuCalendarClock className="text-sm" /> Reschedule
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => markNoShow(b)}
+                          className="flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 py-2 text-xs font-semibold text-slate-500 transition hover:bg-slate-600 hover:text-white"
+                        >
+                          <LuUserX className="text-sm" /> No-show
                         </button>
                         <button
                           type="button"
                           onClick={() => cancel(b)}
-                          className="flex-1 rounded-lg border border-rose-100 bg-rose-50 py-2 text-xs font-semibold text-rose-500 transition hover:bg-rose-500 hover:text-white"
+                          className="flex items-center justify-center gap-1.5 rounded-lg border border-rose-100 bg-rose-50 py-2 text-xs font-semibold text-rose-500 transition hover:bg-rose-500 hover:text-white"
                         >
-                          Cancel
+                          <LuCircleX className="text-sm" /> Cancel
                         </button>
                       </div>
                     )}
@@ -521,17 +575,48 @@ function ApptTypePill({
     (new Date(endTime).getTime() - new Date(startTime).getTime()) / 60000
   );
   const isExtended = type === "extended";
+  const isEmergency = type === "emergency";
+  const tone = isEmergency
+    ? "bg-rose-50 text-rose-600 ring-1 ring-rose-200"
+    : isExtended
+      ? "bg-secondary/8 text-secondary ring-1 ring-secondary/20"
+      : "bg-primary/8 text-primary ring-1 ring-primary/20";
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-        isExtended
-          ? "bg-secondary/8 text-secondary ring-1 ring-secondary/20"
-          : "bg-primary/8 text-primary ring-1 ring-primary/20"
-      }`}
+      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ${tone}`}
     >
-      <LuClock className="text-[9px]" />
-      {label} · {durationMin}m
+      {isEmergency ? <LuTriangleAlert className="text-[9px]" /> : <LuClock className="text-[9px]" />}
+      {isEmergency ? label : `${label} · ${durationMin}m`}
     </span>
+  );
+}
+
+// ─── Compact icon action button (row actions) ───
+const ACTION_TONE: Record<string, string> = {
+  emerald: "border-emerald-200 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:border-emerald-600 hover:text-white",
+  primary: "border-primary/20 bg-primary/8 text-primary hover:bg-primary hover:border-primary hover:text-white",
+  slate:   "border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-600 hover:border-slate-600 hover:text-white",
+  rose:    "border-rose-200 bg-rose-50 text-rose-500 hover:bg-rose-500 hover:border-rose-500 hover:text-white",
+};
+
+function ActionIcon({
+  tone, title, onClick, children,
+}: {
+  tone: keyof typeof ACTION_TONE;
+  title: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={title}
+      aria-label={title}
+      className={`flex h-8 w-8 items-center justify-center rounded-lg border text-[15px] shadow-sm transition active:scale-95 ${ACTION_TONE[tone]}`}
+    >
+      {children}
+    </button>
   );
 }
 
