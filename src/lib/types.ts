@@ -1,5 +1,5 @@
-export type BookingStatus = "confirmed" | "cancelled" | "rescheduled";
-export type AppointmentType = "general" | "extended";
+export type BookingStatus = "confirmed" | "cancelled" | "rescheduled" | "completed" | "no_show";
+export type AppointmentType = "general" | "extended" | "emergency";
 export type AdminRole = "super_admin" | "admin";
 
 export interface Slot {
@@ -84,6 +84,8 @@ export interface BookingStats {
   all_count: number;
   confirmed_count: number;
   today_count: number;
+  completed_count: number;
+  no_show_count: number;
   cancelled_count: number;
 }
 

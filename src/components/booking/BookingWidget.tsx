@@ -11,6 +11,7 @@ import {
   FaTimes,
   FaCalendarCheck,
   FaMobileAlt,
+  FaExclamationTriangle,
 } from "react-icons/fa";
 import PhoneInput from "react-phone-input-2";
 
@@ -91,6 +92,7 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
   );
   const [activeDay, setActiveDay] = useState<string | null>(null);
   const [selected, setSelected] = useState<Slot | null>(null);
+  const [emergency, setEmergency] = useState(false);
   const [form, setForm] = useState({ name: "", reason: "" });
   const [phone, setPhone] = useState("");
   const [defaultCountry] = useState<string>(detectCountry);
@@ -141,16 +143,17 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
   }
 
   async function handleVerifyAndBook() {
-    if (!selected || otpCode.length < 4) return;
+    if ((!selected && !emergency) || otpCode.length < 4) return;
     setSubmitting(true);
     setError(null);
     try {
       const e164 = "+" + phone;
       const { token } = await api.verifyOtp(e164, otpCode);
       const result = await api.createBooking({
-        start_time: selected.start_time,
+        // Emergency has no chosen slot — the server timestamps it "now".
+        start_time: emergency ? null : selected!.start_time,
         patient: { name: form.name, phone: e164 },
-        appointment_type: appointmentType,
+        appointment_type: emergency ? "emergency" : appointmentType,
         reason: form.reason,
         otp_token: token,
       });
@@ -349,6 +352,29 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
                 })}
               </div>
 
+              {/* Emergency CTA — skips slot selection (warm, not alarming) */}
+              <button
+                type="button"
+                onClick={() => {
+                  setEmergency(true);
+                  setSelected(null);
+                  setError(null);
+                  setStep("details");
+                }}
+                className="mb-5 flex w-full items-center gap-3 rounded-xl border border-amber-200 bg-amber-50/70 px-4 py-3 text-left transition hover:border-amber-300 hover:bg-amber-50"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-600">
+                  <FaExclamationTriangle className="h-4 w-4" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-bold text-amber-700">Have a dental emergency?</span>
+                  <span className="block text-xs text-amber-600/80">
+                    Use this only for urgent cases — we&apos;ll call you back right away
+                  </span>
+                </span>
+                <FaArrowRight className="ml-auto h-3.5 w-3.5 shrink-0 text-amber-500" />
+              </button>
+
               {loading ? (
                 <p className="py-6 text-center text-slate-500">Loading slots…</p>
               ) : days.length === 0 ? (
@@ -390,6 +416,7 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
                         type="button"
                         onClick={() => {
                           setSelected(slot);
+                          setEmergency(false);
                           setStep("details");
                         }}
                         className="rounded-xl border border-slate-200 py-2.5 text-sm font-semibold text-slate-600 transition-all duration-200 hover:border-[#1e9b8d] hover:bg-gradient-to-b hover:from-[#1e9b8d] hover:to-[#2a487e] hover:text-white hover:shadow-[0_4px_12px_rgba(30,155,141,0.3)]"
@@ -404,23 +431,43 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
           )}
 
           {/* STEP 2 — details */}
-          {step === "details" && selected && (
+          {step === "details" && (selected || emergency) && (
             <div className="space-y-4">
-              {/* Selected slot chip */}
-              <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#1e9b8d]/20 bg-[#1e9b8d]/8 p-3 text-sm">
-                <FaCalendarCheck className="shrink-0 text-[#1e9b8d]" />
-                <span className="min-w-0 flex-1 text-[#071224]">
-                  <b>{fmtDay(selected.start_time.slice(0, 10))}</b> at{" "}
-                  <b>{fmtTime(selected.start_time)}</b>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setStep("slots")}
-                  className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-[#1e9b8d] hover:underline"
-                >
-                  <FaArrowLeft className="h-2.5 w-2.5" /> change
-                </button>
-              </div>
+              {/* Emergency banner or selected slot chip */}
+              {emergency ? (
+                <div className="flex flex-wrap items-center gap-2 rounded-xl border border-amber-200 bg-amber-50/70 p-3 text-sm">
+                  <FaExclamationTriangle className="shrink-0 text-amber-500" />
+                  <span className="min-w-0 flex-1 text-[#071224]">
+                    <b>Emergency request</b> — our team will call you back right away
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEmergency(false);
+                      setError(null);
+                      setStep("slots");
+                    }}
+                    className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-amber-600 hover:underline"
+                  >
+                    <FaArrowLeft className="h-2.5 w-2.5" /> change
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[#1e9b8d]/20 bg-[#1e9b8d]/8 p-3 text-sm">
+                  <FaCalendarCheck className="shrink-0 text-[#1e9b8d]" />
+                  <span className="min-w-0 flex-1 text-[#071224]">
+                    <b>{fmtDay(selected!.start_time.slice(0, 10))}</b> at{" "}
+                    <b>{fmtTime(selected!.start_time)}</b>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setStep("slots")}
+                    className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-[#1e9b8d] hover:underline"
+                  >
+                    <FaArrowLeft className="h-2.5 w-2.5" /> change
+                  </button>
+                </div>
+              )}
 
               {/* Name */}
               <div>
@@ -505,7 +552,7 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
           )}
 
           {/* STEP 3 — OTP */}
-          {step === "otp" && selected && (
+          {step === "otp" && (selected || emergency) && (
             <div className="space-y-5">
               <div className="rounded-2xl border border-[#1e9b8d]/15 bg-[#1e9b8d]/6 p-5 text-center">
                 <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#1e9b8d]/25 bg-[#1e9b8d]/10">
@@ -583,11 +630,14 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
                 className="text-xl font-extrabold text-[#071224]"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                Appointment confirmed!
+                {booking.appointment_type === "emergency"
+                  ? "We've got you — help is on the way!"
+                  : "Appointment confirmed!"}
               </p>
               <p className="mt-1.5 text-sm text-slate-500">
-                {fmtDay(booking.start_time.slice(0, 10))} at{" "}
-                {fmtTime(booking.start_time)}
+                {booking.appointment_type === "emergency"
+                  ? "We'll get back to you shortly — you'll receive a call from our team soon."
+                  : `${fmtDay(booking.start_time.slice(0, 10))} at ${fmtTime(booking.start_time)}`}
               </p>
 
               <div className="mx-auto mt-5 w-full max-w-xs overflow-hidden rounded-2xl border border-slate-100">
@@ -597,7 +647,7 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
                     { label: "Reference", value: `#${booking.id}`, bold: true },
                     { label: "Patient", value: booking.patient.name },
                     { label: "Phone", value: booking.patient.phone },
-                    { label: "Status", value: "Confirmed", green: true },
+                    { label: "Status", value: booking.appointment_type === "emergency" ? "Pending callback" : "Confirmed", green: true },
                   ].map(({ label, value, bold, green }) => (
                     <div
                       key={label}
@@ -615,7 +665,9 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
               </div>
 
               <p className="mt-4 text-xs text-slate-400">
-                A confirmation SMS has been sent to {booking.patient.phone}.
+                {booking.appointment_type === "emergency"
+                  ? `We've sent a confirmation to ${booking.patient.phone}. Please keep your phone nearby.`
+                  : `A confirmation SMS has been sent to ${booking.patient.phone}.`}
               </p>
 
               {onClose && (
