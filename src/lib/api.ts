@@ -134,7 +134,7 @@ export const api = {
       body: JSON.stringify({ phone, code }),
     }),
   createBooking: (payload: {
-    start_time: string;
+    start_time: string | null;
     patient: { name: string; phone: string };
     appointment_type?: string;
     reason?: string;
@@ -203,6 +203,11 @@ export const api = {
   },
   adminCancel: (id: number) =>
     request<Booking>(`/admin/bookings/${id}/cancel`, { method: "POST" }),
+  adminSetStatus: (id: number, status: string) =>
+    request<Booking>(`/admin/bookings/${id}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({ status }),
+    }),
   adminReschedule: (id: number, new_start_time: string) =>
     request<Booking>(`/admin/bookings/${id}/reschedule`, {
       method: "POST",

@@ -31,7 +31,7 @@ export function Avatar({ name, size = 40 }: { name: string; size?: number }) {
   );
 }
 
-type Tone = "primary" | "secondary" | "amber" | "rose" | "emerald";
+type Tone = "primary" | "secondary" | "amber" | "rose" | "emerald" | "slate";
 
 const TONE: Record<Tone, { icon: string; num: string; ring: string; glow: string }> = {
   primary:   { icon: "bg-primary text-white",          num: "text-primary",   ring: "ring-primary/15",   glow: "from-primary/8 to-transparent" },
@@ -39,6 +39,7 @@ const TONE: Record<Tone, { icon: string; num: string; ring: string; glow: string
   amber:     { icon: "bg-gradient-to-br from-amber-400 to-orange-400 text-white", num: "text-amber-600",   ring: "ring-amber-200",   glow: "from-amber-50 to-transparent" },
   rose:      { icon: "bg-gradient-to-br from-rose-400 to-pink-500 text-white",    num: "text-rose-500",    ring: "ring-rose-200",    glow: "from-rose-50 to-transparent" },
   emerald:   { icon: "bg-gradient-to-br from-emerald-400 to-teal-500 text-white", num: "text-emerald-600", ring: "ring-emerald-200", glow: "from-emerald-50 to-transparent" },
+  slate:     { icon: "bg-gradient-to-br from-slate-400 to-slate-500 text-white",  num: "text-slate-600",   ring: "ring-slate-200",   glow: "from-slate-50 to-transparent" },
 };
 
 /** Dashboard stat card — horizontal icon + number layout. */
@@ -74,6 +75,16 @@ const PILL: Record<string, string> = {
   confirmed:   "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
   cancelled:   "bg-rose-50   text-rose-600   ring-1 ring-rose-200",
   rescheduled: "bg-amber-50  text-amber-700  ring-1 ring-amber-200",
+  completed:   "bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200",
+  no_show:     "bg-slate-100 text-slate-600  ring-1 ring-slate-300",
+};
+
+const PILL_LABEL: Record<string, string> = {
+  confirmed:   "Confirmed",
+  cancelled:   "Cancelled",
+  rescheduled: "Rescheduled",
+  completed:   "Completed",
+  no_show:     "No-show",
 };
 
 export function StatusPill({ status }: { status: string }) {
@@ -84,7 +95,7 @@ export function StatusPill({ status }: { status: string }) {
       }`}
     >
       <span className="h-1.5 w-1.5 rounded-full bg-current" />
-      {status}
+      {PILL_LABEL[status] ?? status}
     </span>
   );
 }
