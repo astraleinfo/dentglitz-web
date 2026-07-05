@@ -190,7 +190,7 @@ export default function AboutPage() {
                 <div className="mb-5 h-0.5 w-12 rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#4DD4C5]" />
                 <div className="space-y-4 text-base leading-relaxed text-slate-500">
                   <p>
-                    At Dentglitz, we believe every smile tells a story. Founded in 2021 by Dr. Aravind Kumar, our clinic
+                    At Dentglitz, we believe every smile tells a story. Founded in 2021 by Dr. J.Chimera, our clinic
                     was built on a simple promise: exceptional dental care delivered with genuine warmth, in an environment
                     where patients feel truly at ease.
                   </p>
