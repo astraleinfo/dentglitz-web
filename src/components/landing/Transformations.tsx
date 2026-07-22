@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
-import { LuArrowRight } from "react-icons/lu";
+import { LuArrowRight, LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { BookAppointmentButton } from "@/components/booking/BookAppointmentButton";
 import { media } from "@/config/media";
 import { trackButtonClick } from "@/lib/gtm";
@@ -79,6 +79,25 @@ export function BeforeAfterSlider({ before, after, heightClass = "h-[340px]" }: 
 export function Transformations() {
   const sectionRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
+  const [dir, setDir] = useState<1 | -1>(1);
+  const touchX = useRef<number | null>(null);
+
+  const go = useCallback((next: number, d: 1 | -1) => {
+    setDir(d);
+    setActive((next + cases.length) % cases.length);
+  }, []);
+
+  const prev = useCallback(() => go(active - 1, -1), [active, go]);
+  const next = useCallback(() => go(active + 1, 1), [active, go]);
+
+  // Swipe on the panel — the before/after slider handles its own drag
+  const onTouchStart = (e: React.TouchEvent) => { touchX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    touchX.current = null;
+    if (Math.abs(dx) > 60) (dx < 0 ? next : prev)();
+  };
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -127,67 +146,91 @@ export function Transformations() {
           </a>
         </div>
 
-        {/* Treatment filter tags — full width, centered */}
-        <div className="reveal mb-8 flex flex-wrap justify-center gap-2">
-          {cases.map((c, i) => (
-            <button
-              key={c.id}
-              onClick={() => setActive(i)}
-              className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-bold transition-all ${
-                active === i
-                  ? "bg-primary text-white shadow-md"
-                  : "border border-slate-200 text-slate-500 hover:border-primary/30 hover:text-primary"
-              }`}
+        {/* Carousel */}
+        <div className="reveal relative" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+
+          {/* Case title + counter */}
+          <div className="mb-6 flex items-center justify-center gap-4">
+            <span className="text-xs font-bold tabular-nums text-slate-400">
+              {String(active + 1).padStart(2, "0")} / {String(cases.length).padStart(2, "0")}
+            </span>
+            <h3
+              key={`title-${active}`}
+              className="ba-slide text-center text-lg font-extrabold text-slate-800 sm:text-xl"
+              style={{ fontFamily: "var(--font-heading)" }}
             >
-              {c.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
-
-          {/* Left: slider */}
-          <div className="reveal-left">
-            {/* Slider */}
-            <BeforeAfterSlider before={current.before} after={current.after} heightClass="h-[220px] sm:h-[280px] md:h-[340px]" />
-            <p className="mt-3 text-center text-xs text-white/40" style={{ fontFamily: "var(--font-sans)" }}>
-              <span className="hidden sm:inline">← Drag slider to compare →</span>
-              <span className="sm:hidden">Touch &amp; drag to compare</span>
-            </p>
+              {current.label}
+            </h3>
           </div>
 
-          {/* Right: quote + tag + CTA */}
-          <div className="reveal-right flex flex-col gap-6">
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-md">
-              <div className="mb-4 text-5xl text-primary">❝</div>
-              <p className="mb-6 text-lg leading-relaxed text-black/80 italic" style={{ fontFamily: "var(--font-sans)" }}>
-                {current.quote}
+          {/* Arrows — flank the slide on large screens, sit over its edges on small */}
+          <button
+            type="button"
+            aria-label="Previous transformation"
+            onClick={prev}
+            className="absolute left-0 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-primary/20 bg-white/90 text-primary shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-primary hover:text-white lg:-left-4"
+          >
+            <LuChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            aria-label="Next transformation"
+            onClick={next}
+            className="absolute right-0 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-primary/20 bg-white/90 text-primary shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-primary hover:text-white lg:-right-4"
+          >
+            <LuChevronRight className="h-5 w-5" />
+          </button>
+
+          {/* Slide — remounts per case so the enter animation replays */}
+          <div
+            key={active}
+            className={`grid gap-10 px-6 lg:grid-cols-[1fr_1fr] lg:items-center lg:px-14 ${dir === 1 ? "ba-slide-in-right" : "ba-slide-in-left"}`}
+          >
+            <div>
+              <BeforeAfterSlider before={current.before} after={current.after} heightClass="h-[220px] sm:h-[280px] md:h-[340px]" />
+              <p className="mt-3 text-center text-xs text-slate-400" style={{ fontFamily: "var(--font-sans)" }}>
+                <span className="hidden sm:inline">← Drag slider to compare →</span>
+                <span className="sm:hidden">Touch &amp; drag to compare</span>
               </p>
-              <div className="flex items-center gap-3">
-                <span className="rounded-full bg-primary/20 px-3 py-1 text-xs font-bold text-[#4DD4C5]">
-                  {current.tag}
-                </span>
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="h-4 w-4 text-amber-400 fill-amber-400" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
+            </div>
+
+            <div className="flex flex-col gap-6">
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-md">
+                <div className="mb-4 text-5xl text-primary">❝</div>
+                <p className="mb-6 text-lg leading-relaxed text-black/80 italic" style={{ fontFamily: "var(--font-sans)" }}>
+                  {current.quote}
+                </p>
+                <div className="flex items-center gap-3">
+                  <span className="rounded-full bg-primary/20 px-3 py-1 text-xs font-bold text-[#4DD4C5]">
+                    {current.tag}
+                  </span>
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className="h-4 w-4 text-amber-400 fill-amber-400" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Navigation dots */}
-            <div className="flex justify-center gap-2">
-              {cases.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActive(i)}
-                  className={`h-2 rounded-full transition-all ${active === i ? "w-6 bg-primary" : "w-2 bg-white/30"}`}
-                />
-              ))}
-            </div>
+          {/* Dots */}
+          <div className="mt-8 flex justify-center gap-2">
+            {cases.map((c, i) => (
+              <button
+                key={c.id}
+                aria-label={`Go to ${c.label}`}
+                onClick={() => go(i, i > active ? 1 : -1)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  active === i ? "w-7 bg-primary" : "w-2 bg-slate-300 hover:bg-primary/50"
+                }`}
+              />
+            ))}
+          </div>
 
+          <div className="mt-8 flex justify-center">
             <BookAppointmentButton
               label={
                 <span className="flex items-center gap-2">

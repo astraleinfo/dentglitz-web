@@ -515,6 +515,25 @@ input[type="time"]:focus::-webkit-calendar-picker-indicator {
   cursor: ew-resize;
 }
 
+/* ── Transformations carousel slide transitions ── */
+@keyframes ba-slide-from-right {
+  from { opacity: 0; transform: translateX(36px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes ba-slide-from-left {
+  from { opacity: 0; transform: translateX(-36px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.ba-slide-in-right { animation: ba-slide-from-right 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.ba-slide-in-left  { animation: ba-slide-from-left  0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.ba-slide          { animation: ba-slide-from-right 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ba-slide-in-right,
+  .ba-slide-in-left,
+  .ba-slide { animation: none; }
+}
+
 /* Mouse glow effect */
 .mouse-glow {
   position: fixed;

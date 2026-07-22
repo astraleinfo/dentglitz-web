@@ -54,7 +54,7 @@ export interface Milestone {
 
 export const milestones: Milestone[] = [
   { year: "2021", title: "Clinic Founded",   desc: "Dentglitz opened its doors in Porur, Chennai with a single mission: make quality dental care accessible to all." },
-  { year: "2022", title: "Specialist Team",  desc: "Welcomed our prosthodontist & implantologist and added a dedicated cosmetic dentistry suite." },
+  { year: "2022", title: "Specialist Team",  desc: "Welcomed our Prosthodontist and implantologist and added a dedicated cosmetic dentistry suite." },
   { year: "2023", title: "Digital Upgrade",  desc: "Adopted digital X-rays and intraoral cameras for precise, low-radiation diagnosis and treatment." },
   { year: "2024", title: "1000+ Smiles",     desc: "Celebrated transforming over a thousand smiles — a milestone built purely on patient trust and word-of-mouth." },
   { year: "2025", title: "1500+ Smiles",     desc: "Crossed 1,500 happy patients and opened our upgraded, fully air-conditioned facility with a modern patient lounge." },
@@ -92,13 +92,13 @@ export const doctors: Doctor[] = [
   },
   {
     name: "Dr. J. Jesima",
-    role: "Prosthodontist & Implantologist",
+    role: "Prosthodontist and implantologist",
     qualification: "MDS",
     experience: "3+ Years",
     avatar: CDN("doctors/jesima.webp"),
     objectPosition: "center 20%",
     zoom: 1.4,
-    specialty: "Prosthodontics & Implantology",
+    specialty: "Prosthodontist and implantologist",
     membership: "Member of Indian Prosthodontist Society",
     regNo: "33661",
     specializations: [
