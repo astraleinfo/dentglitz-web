@@ -19,8 +19,8 @@ type ContactCard = {
   iconBg: string;
   iconBorder: string;
   iconColor: string;
-  tooltip?: string;
   href?: string;
+  wrap?: boolean;
 };
 
 export function Contact() {
@@ -49,8 +49,8 @@ export function Contact() {
       iconBg: "bg-[#1e9b8d]/10",
       iconBorder: "border-[#1e9b8d]/25",
       iconColor: "text-[#1e9b8d]",
-      tooltip: cfg.address,
       href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cfg.address)}`,
+      wrap: true,
     },
     {
       icon: FaPhoneAlt,
@@ -151,30 +151,10 @@ export function Contact() {
                   iconBg,
                   iconBorder,
                   iconColor,
-                  tooltip,
                   href,
+                  wrap,
                 }) => (
                   <div key={label} className="group relative">
-
-                    {/* Tooltip — address only, appears above on hover (desktop only) */}
-                    {tooltip && (
-                      <div className="pointer-events-none absolute bottom-full left-0 z-50 mb-3 w-full opacity-0 -translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0 hidden sm:block">
-                        <div className="relative overflow-hidden rounded-2xl border border-[#4DD4C5]/25 bg-[#071224] px-4 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.45),_0_0_0_1px_rgba(77,212,197,0.08)] backdrop-blur-md">
-                          {/* Top accent bar */}
-                          <div className="absolute left-0 right-0 top-0 h-[2px] bg-gradient-to-r from-[#4DD4C5] to-[#1e9b8d]" />
-                          {/* Label */}
-                          <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[#4DD4C5]/70" style={{ fontFamily: "var(--font-sans)" }}>
-                            Full Address
-                          </p>
-                          {/* Address */}
-                          <p className="text-[12.5px] leading-relaxed text-white/80" style={{ fontFamily: "var(--font-sans)" }}>
-                            {tooltip}
-                          </p>
-                          {/* Arrow pointing down */}
-                          <div className="absolute -bottom-[5px] left-6 h-2.5 w-2.5 rotate-45 border-b border-r border-[#4DD4C5]/20 bg-[#071224]" />
-                        </div>
-                      </div>
-                    )}
 
                     <a
                       href={href}
@@ -198,7 +178,7 @@ export function Contact() {
                           {label}
                         </p>
                         <p
-                          className="mt-0.5 truncate text-xs font-semibold text-[#071224] transition-colors duration-300 sm:text-sm group-hover:text-[#1e9b8d]"
+                          className={`mt-0.5 text-xs font-semibold text-[#071224] transition-colors duration-300 sm:text-sm group-hover:text-[#1e9b8d] ${wrap ? "leading-snug" : "truncate"}`}
                           style={{ fontFamily: "var(--font-sans)" }}
                         >
                           {value}

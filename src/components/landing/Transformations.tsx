@@ -201,7 +201,7 @@ export function Transformations() {
                   {current.quote}
                 </p>
                 <div className="flex items-center gap-3">
-                  <span className="rounded-full bg-primary/20 px-3 py-1 text-xs font-bold text-[#4DD4C5]">
+                  <span className="whitespace-nowrap rounded-full bg-primary/20 px-3 py-1 text-xs font-bold text-[#4DD4C5]">
                     {current.tag}
                   </span>
                   <div className="flex gap-0.5">

@@ -186,7 +186,7 @@ export function About() {
             {/* CTA */}
             <a
               href="/about"
-              className="transform-gpu inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] px-7 py-3.5 text-sm font-bold text-white shadow-[0_4px_20px_rgba(30,155,141,0.35)] transition-all duration-300 hover:from-[#25b8a8] hover:to-[#344f8c] hover:shadow-[0_8px_32px_rgba(30,155,141,0.55)]"
+              className="transform-gpu mx-auto flex w-fit items-center gap-2.5 rounded-full bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] px-7 py-3.5 text-sm font-bold text-white shadow-[0_4px_20px_rgba(30,155,141,0.35)] transition-all duration-300 hover:from-[#25b8a8] hover:to-[#344f8c] hover:shadow-[0_8px_32px_rgba(30,155,141,0.55)] sm:mx-0 sm:inline-flex"
             >
               Learn More About Us
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
