@@ -69,6 +69,7 @@ export const defaultConfig: SiteConfig = {
     { id: "extended", label: "Extended Consultation", duration: 30, desc: "Complex treatment or detailed exam" },
   ],
 };
+export const OTP_DISABLED = process.env.DISABLE_OTP === "true";
 
 /** Darken a hex color by a percentage — used to derive `*-dark` shades. */
 export function darken(hex: string, amount = 0.12): string {

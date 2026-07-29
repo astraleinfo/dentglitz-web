@@ -138,7 +138,7 @@ export const api = {
     patient: { name: string; phone: string };
     appointment_type?: string;
     reason?: string;
-    otp_token: string;
+    otp_token?: string;
   }) =>
     request<Booking>("/bookings", {
       method: "POST",

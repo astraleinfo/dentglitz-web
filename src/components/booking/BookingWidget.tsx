@@ -19,16 +19,18 @@ import { api } from "@/lib/api";
 import type { AppointmentType, Slot, Booking } from "@/lib/types";
 import { useSiteConfig } from "@/components/ThemeProvider";
 import { media } from "@/config/media";
+import { OTP_DISABLED } from "@/config/site.config";
 import { LuClock } from "react-icons/lu";
 
 type Step = "slots" | "details" | "otp" | "done";
-const STEP_INDEX: Record<Step, number> = {
-  slots: 0,
-  details: 1,
-  otp: 2,
-  done: 3,
-};
-const STEPS = ["Time", "Details", "Verify", "Confirm"];
+// With OTP disabled the "otp" step is never reached and the Verify pip is
+// dropped from the stepper, so "done" moves up one slot.
+const STEP_INDEX: Record<Step, number> = OTP_DISABLED
+  ? { slots: 0, details: 1, otp: 1, done: 2 }
+  : { slots: 0, details: 1, otp: 2, done: 3 };
+const STEPS = OTP_DISABLED
+  ? ["Time", "Details", "Confirm"]
+  : ["Time", "Details", "Verify", "Confirm"];
 
 const TZ_TO_COUNTRY: Record<string, string> = {
   "Asia/Kolkata": "in",
@@ -127,6 +129,49 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
 
   const selectedTypeMeta = appointmentTypes.find((t) => t.id === appointmentType) ?? appointmentTypes[0];;
 
+  /** Sends the booking request. `otpToken` is omitted when OTP is disabled. */
+  async function submitBooking(otpToken?: string) {
+    const result = await api.createBooking({
+      // Emergency has no chosen slot — the server timestamps it "now".
+      start_time: emergency ? null : selected!.start_time,
+      patient: { name: form.name, phone: "+" + phone },
+      appointment_type: emergency ? "emergency" : appointmentType,
+      reason: form.reason,
+      ...(otpToken ? { otp_token: otpToken } : {}),
+    });
+    setBooking(result);
+    setStep("done");
+  }
+
+  /**
+   * CTA on the details step — books straight away when NEXT_DISABLE_OTP=true,
+   * otherwise sends a code and moves on to the verification step.
+   */
+  async function handleDetailsSubmit() {
+    if (!phone || (!selected && !emergency)) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      if (OTP_DISABLED) {
+        await submitBooking();
+      } else {
+        await api.sendOtp("+" + phone);
+        setOtpCode("");
+        setStep("otp");
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : OTP_DISABLED
+            ? "Could not book your appointment"
+            : "Failed to send code",
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function handleSendOtp() {
     if (!phone) return;
     setSubmitting(true);
@@ -147,18 +192,8 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
     setSubmitting(true);
     setError(null);
     try {
-      const e164 = "+" + phone;
-      const { token } = await api.verifyOtp(e164, otpCode);
-      const result = await api.createBooking({
-        // Emergency has no chosen slot — the server timestamps it "now".
-        start_time: emergency ? null : selected!.start_time,
-        patient: { name: form.name, phone: e164 },
-        appointment_type: emergency ? "emergency" : appointmentType,
-        reason: form.reason,
-        otp_token: token,
-      });
-      setBooking(result);
-      setStep("done");
+      const { token } = await api.verifyOtp("+" + phone, otpCode);
+      await submitBooking(token);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Verification failed");
     } finally {
@@ -535,15 +570,21 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
               <button
                 type="button"
                 disabled={!form.name || !phone || submitting}
-                onClick={handleSendOtp}
+                onClick={handleDetailsSubmit}
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#1e9b8d] to-[#2a487e] py-3.5 text-sm font-bold text-white shadow-[0_4px_16px_rgba(30,155,141,0.35)] transition-all duration-300 hover:from-[#25b8a8] hover:to-[#344f8c] hover:shadow-[0_8px_24px_rgba(30,155,141,0.5)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
               >
                 {submitting ? (
-                  "Sending code…"
+                  OTP_DISABLED ? (
+                    "Booking…"
+                  ) : (
+                    "Sending code…"
+                  )
                 ) : (
                   <>
                     {" "}
-                    Send verification code{" "}
+                    {OTP_DISABLED
+                      ? "Book appointment"
+                      : "Send verification code"}{" "}
                     <FaArrowRight className="h-3.5 w-3.5" />{" "}
                   </>
                 )}
