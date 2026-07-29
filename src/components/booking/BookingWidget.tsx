@@ -705,10 +705,16 @@ export function BookingWidget({ onClose }: { onClose?: () => void }) {
                 </div>
               </div>
 
+              {/* With OTP/SMS disabled nothing is sent to the patient — the
+                  clinic is notified by email — so don't promise a message. */}
               <p className="mt-4 text-xs text-slate-400">
                 {booking.appointment_type === "emergency"
-                  ? `We've sent a confirmation to ${booking.patient.phone}. Please keep your phone nearby.`
-                  : `A confirmation SMS has been sent to ${booking.patient.phone}.`}
+                  ? OTP_DISABLED
+                    ? `Our team will call you on ${booking.patient.phone}. Please keep your phone nearby.`
+                    : `We've sent a confirmation to ${booking.patient.phone}. Please keep your phone nearby.`
+                  : OTP_DISABLED
+                    ? `Our team has your appointment on record. We'll reach you on ${booking.patient.phone} if anything changes.`
+                    : `A confirmation SMS has been sent to ${booking.patient.phone}.`}
               </p>
 
               {onClose && (
