@@ -177,7 +177,7 @@ export function Gallery() {
 
           {/* Panel */}
           <div
-            className={`relative flex w-full max-w-3xl max-h-[88vh] flex-col overflow-hidden rounded-3xl bg-white
+            className={`relative flex h-[min(92vh,960px)] w-full max-w-5xl flex-col overflow-hidden rounded-3xl bg-white
                        shadow-[0_8px_16px_rgba(0,0,0,0.08),_0_32px_80px_rgba(0,0,0,0.25)]
                        transition-all duration-300
                        ${lightboxVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-6"}`}
@@ -211,14 +211,16 @@ export function Gallery() {
             </div>
 
             {/* Image */}
-            <div className="relative h-[42vh] w-full flex-shrink-0 bg-slate-50 px-4 py-4 sm:h-[58vh] sm:px-6 sm:py-5">
-              <Image
-                src={lightboxItem.img}
-                alt={lightboxItem.label}
-                fill
-                className="rounded-2xl object-contain p-2"
-                sizes="(max-width: 768px) 100vw, 768px"
-              />
+            <div className="flex-1 min-h-0 bg-slate-50 p-4 sm:p-6">
+              <div className="relative h-full w-full overflow-hidden rounded-2xl">
+                <Image
+                  src={lightboxItem.img}
+                  alt={lightboxItem.label}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 100vw, 1200px"
+                />
+              </div>
             </div>
 
             {/* Footer: prev / dots / next */}
