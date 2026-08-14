@@ -11,6 +11,7 @@ import { Testimonials }     from "@/components/landing/Testimonials";
 import { Contact }          from "@/components/landing/Contact";
 import { CTA }              from "@/components/landing/CTA";
 import { Footer }           from "@/components/landing/Footer";
+import { OfferPopup }       from "@/components/landing/OfferPopup";
 // import { AnimatedParticles } from "@/components/landing/AnimatedParticles";
 import { media }           from "@/config/media";
 
@@ -18,6 +19,7 @@ export default function Home() {
   return (
     <main>
       {/* <AnimatedParticles /> */}
+      <OfferPopup />
       <Navbar />
       <Hero />
       {/* Fixed background wrapper — all sections below Hero scroll over aboutBackground */}

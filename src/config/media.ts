@@ -30,6 +30,23 @@ export interface TransformationCase {
 
 export type EventType = "Camp" | "Event" | "Workshop";
 
+export interface OfferPopup {
+  /** Turn the popup on/off without deleting the content. */
+  enabled: boolean;
+  /** Bump this when the offer changes — it resets the "already seen" flag. */
+  id: string;
+  /** Popup auto-hides after this date (YYYY-MM-DD, inclusive). */
+  expiresOn: string;
+  /** Delay before the popup appears, in ms. */
+  delayMs: number;
+  poster: string;
+  posterAlt: string;
+  /** Used for the floating button's label and the modal's accessible name. */
+  eyebrow: string;
+  title: string;
+  date: string;
+}
+
 export interface UpdatePost {
   img: string;
   type: EventType;
@@ -160,6 +177,20 @@ export const media = {
       tag:   "Full Arch",
     },
   ] as TransformationCase[],
+
+  // ── Offer / campaign popup shown on the landing page ──
+  offerPopup: {
+    enabled: true,
+    id: "awareness-campaign-aug-2026",
+    expiresOn: "2026-08-16",
+    delayMs: 1200,
+    poster: "/images/offers/awareness-campaign-aug-2026.webp",
+    posterAlt:
+      "Dentglitz Artificial Tooth Replacement Awareness Campaign — 15 August 2026",
+    eyebrow: "Awareness Campaign",
+    title: "Artificial Tooth Replacement",
+    date: "15 August 2026",
+  } as OfferPopup,
 
   // ── Updates / events (landing section uses first 4; /updates page uses all) ──
   updates: [
