@@ -9,6 +9,11 @@ const U = (id: string, w = 800, q = 75) =>
 export const CDN = (path: string) =>
   `${process.env.NEXT_PUBLIC_CDN_URL}/${path.split("/").map(encodeURIComponent).join("/")}`;
 
+// Photos from the Artificial Tooth Replacement Awareness Campaign (Aug 2026),
+// served from /public rather than the CDN.
+const ATR = (name: string) =>
+  `/images/camps/artificial-tooth-replacement-2026/${name}.webp`;
+
 // ─────────────────────────────────────────────────────────
 //  Types
 // ─────────────────────────────────────────────────────────
@@ -38,6 +43,8 @@ export interface UpdatePost {
   title: string;
   description: string;
   details?: string;
+  /** Extra photos shown as a gallery inside the detail modal. */
+  gallery?: string[];
 }
 
 // ─────────────────────────────────────────────────────────
@@ -163,6 +170,34 @@ export const media = {
 
   // ── Updates / events (landing section uses first 4; /updates page uses all) ──
   updates: [
+    {
+      img: ATR("consultation-01"),
+      type: "Camp" as EventType,
+      date: "15 August 2026",
+      location: "Dentglitz — Karambakkam, Chennai",
+      title: "Artificial Tooth Replacement Awareness Campaign — August 2026",
+      description:
+        "Dentglitz – The Complete Dental Care successfully conducted an Artificial Tooth Replacement Awareness Campaign on 15 August 2026 at its clinic in Karambakkam, Chennai, to create awareness about the options available for replacing missing teeth.",
+      details:
+        "The campaign was organised to create awareness about the various options available for replacing missing teeth and to help patients understand the importance of restoring both oral function and aesthetics.\n\n" +
+        "The programme featured a FREE Expert Consultation with Dr. J. Jesima, MDS. — Prosthodontist (Crown & Bridge Specialist) & Implantologist — and Dr. J. Chimera, BDS. — Founder & Chief Dental Surgeon.\n\n" +
+        "During the campaign, patients were educated about different tooth-replacement options, including Dental Implants, Crowns & Bridges, and Dentures. The dental team explained the benefits, suitability and importance of choosing the appropriate treatment based on each patient's individual oral health needs.\n\n" +
+        "The awareness programme also highlighted how replacing missing teeth can improve chewing ability, speech, facial appearance, oral function and self-confidence. Special discounts on treatment charges were also offered as part of the campaign.\n\n" +
+        "The event provided an opportunity for patients to interact with dental specialists, clarify their concerns and gain a better understanding of modern tooth-replacement solutions.\n\n" +
+        "Dentglitz – The Complete Dental Care remains committed to creating awareness and providing comprehensive dental care to help patients achieve a healthy, functional and confident smile.",
+      gallery: [
+        ATR("consultation-01"),
+        ATR("screening-02"),
+        ATR("screening-03"),
+        ATR("screening-04"),
+        ATR("awareness-outreach-05"),
+        ATR("students-06"),
+        ATR("screening-07"),
+        ATR("screening-08"),
+        ATR("free-kit-09"),
+        ATR("clinic-camp-10"),
+      ],
+    },
     {
       img: CDN("Camp 2022/dental camp.webp"),
       type: "Camp" as EventType,

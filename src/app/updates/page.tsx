@@ -299,6 +299,27 @@ export default function UpdatesPage() {
                 {selectedPost.details && (
                   <p className="whitespace-pre-line text-sm leading-relaxed text-slate-500">{selectedPost.details}</p>
                 )}
+
+                {selectedPost.gallery && selectedPost.gallery.length > 0 && (
+                  <div className="mt-6">
+                    <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                      Camp Highlights
+                    </p>
+                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                      {selectedPost.gallery.map((src, i) => (
+                        <div key={src} className="group/photo relative aspect-[4/3] overflow-hidden rounded-lg bg-slate-100">
+                          <Image
+                            src={src}
+                            alt={`${selectedPost.title} — photo ${i + 1}`}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover/photo:scale-105"
+                            sizes="(max-width: 640px) 45vw, 180px"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="flex-shrink-0 border-t border-slate-100 px-6 py-4 bg-slate-50/60">
                 <button
