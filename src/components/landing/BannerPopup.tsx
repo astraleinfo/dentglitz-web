@@ -2,35 +2,16 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { PointerEvent } from "react";
-import { LuChevronLeft, LuChevronRight, LuX } from "react-icons/lu";
+import { LuChevronLeft, LuChevronRight, LuGift, LuX } from "react-icons/lu";
 
 import { api } from "@/lib/api";
 import type { Banner } from "@/lib/types";
 
-/** localStorage key holding the S3 keys of the banners the visitor has closed. */
-const DISMISSED_KEY = "dentglitz:banners-dismissed";
 const SWIPE_PX = 40;
 
 const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-secondary-dark";
 const arrowClass = `h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 ${focusRing}`;
-
-function getDismissed(): string[] {
-  try {
-    const parsed: unknown = JSON.parse(localStorage.getItem(DISMISSED_KEY) ?? "[]");
-    return Array.isArray(parsed) ? parsed.filter((k): k is string => typeof k === "string") : [];
-  } catch {
-    return []; // storage blocked (private mode etc.) or corrupt — just show the banners
-  }
-}
-
-function setDismissed(keys: string[]) {
-  try {
-    localStorage.setItem(DISMISSED_KEY, JSON.stringify(keys));
-  } catch {
-    /* storage blocked — the banners will simply show again next visit */
-  }
-}
 
 /** "banners/01-diwali-offer.webp" → "Diwali offer": file names double as alt text. */
 function altFromKey(key: string): string {
@@ -45,8 +26,8 @@ function altFromKey(key: string): string {
 /**
  * Promo banner popup, shown on page load when the API's S3 banner folder has
  * images. Several banners show as a carousel that auto-advances until the
- * visitor navigates. Closing it is remembered per image, so only newly
- * uploaded banners bring the popup back. Nothing renders when there are no
+ * visitor navigates. Once closed, a glowing "View Offer" button beside the
+ * floating WhatsApp button reopens it. Nothing renders when there are no
  * banners or the request fails.
  *
  * Banners are posters with text baked in, so the image is always shown whole
@@ -59,25 +40,23 @@ export function BannerPopup() {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [closed, setClosed] = useState(false);
+  const [mounted, setMounted] = useState(true); // overlay stays in the DOM through the close fade
+  // Stays mounted once shown (the overlay covers it) so focus can return to it on close.
+  const [showTrigger, setShowTrigger] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [autoplay, setAutoplay] = useState(true); // off after the first manual move
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchX = useRef<number | null>(null);
   const swiped = useRef(false);
+  const unmountTimer = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => () => clearTimeout(unmountTimer.current), []);
 
   useEffect(() => {
     api
       .getBanners()
-      .then((all) => {
-        // [] is also what an S3 outage looks like — keep the saved dismissals.
-        if (all.length === 0) return;
-        const live = new Set(all.map((b) => b.key));
-        // Forget banners since removed from S3, so the list doesn't grow forever.
-        const dismissed = getDismissed().filter((k) => live.has(k));
-        setDismissed(dismissed);
-        setBanners(all.filter((b) => !dismissed.includes(b.key)));
-      })
+      .then(setBanners)
       .catch(() => {});
   }, []);
 
@@ -98,11 +77,21 @@ export function BannerPopup() {
   );
 
   const close = useCallback(() => {
-    setDismissed([...new Set([...getDismissed(), ...banners.map((b) => b.key)])]);
     setClosed(true);
     setIsOpen(false);
-    setTimeout(() => setBanners([]), 300);
-  }, [banners]);
+    setHovered(false);
+    setShowTrigger(true);
+    unmountTimer.current = setTimeout(() => setMounted(false), 300);
+  }, []);
+
+  // The images are already loaded, so the open effect below shows it on the next frame.
+  const reopen = () => {
+    clearTimeout(unmountTimer.current);
+    setIndex(0);
+    setAutoplay(true);
+    setMounted(true);
+    setClosed(false);
+  };
 
   // Open only once the first banner's image is ready, so the popup never flashes empty.
   useEffect(() => {
@@ -168,7 +157,7 @@ export function BannerPopup() {
     </button>
   );
 
-  return (
+  const overlay = (
     <div
       ref={dialogRef}
       data-multi={multi || undefined}
@@ -283,5 +272,41 @@ export function BannerPopup() {
         </div>
       )}
     </div>
+  );
+
+  return (
+    <>
+      {mounted && overlay}
+
+      {/* Same design as the Aug 15 offer button (offer-aug-15 branch): tops the
+          floating stack in Hero.tsx — above Call on mobile, and above WhatsApp on
+          desktop, where the Call button is hidden. */}
+      {showTrigger && (
+        <button
+          type="button"
+          onClick={reopen}
+          aria-label={multi ? "View offers" : "View offer"}
+          aria-haspopup="dialog"
+          className="group fixed bottom-[10.5rem] right-6 z-[60] flex h-14 w-14 items-center justify-center rounded-full
+                     bg-gradient-to-br from-[#f0b323] to-[#e07a1f] shadow-[0_8px_28px_rgba(224,122,31,0.5)]
+                     transition-all animate-glow-ring hover:scale-110 hover:shadow-[0_12px_40px_rgba(224,122,31,0.65)]
+                     motion-reduce:animate-none focus-visible:outline-none focus-visible:ring-2
+                     focus-visible:ring-[#e07a1f] focus-visible:ring-offset-2 lg:bottom-24"
+        >
+          <LuGift className="h-6 w-6 text-white" />
+
+          {/* "New" ping dot */}
+          <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-rose-400 opacity-75 motion-reduce:animate-none" />
+            <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-white bg-rose-500" />
+          </span>
+
+          {/* Hover label (desktop) */}
+          <span className="pointer-events-none absolute right-[4.25rem] hidden whitespace-nowrap rounded-full bg-slate-900/85 px-3 py-1.5 text-xs font-semibold text-white opacity-0 backdrop-blur transition group-hover:opacity-100 group-focus-visible:opacity-100 lg:block">
+            {multi ? "View offers" : "View offer"}
+          </span>
+        </button>
+      )}
+    </>
   );
 }
