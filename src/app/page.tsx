@@ -11,6 +11,7 @@ import { Testimonials }     from "@/components/landing/Testimonials";
 import { Contact }          from "@/components/landing/Contact";
 import { CTA }              from "@/components/landing/CTA";
 import { Footer }           from "@/components/landing/Footer";
+import { BannerPopup }      from "@/components/landing/BannerPopup";
 // import { AnimatedParticles } from "@/components/landing/AnimatedParticles";
 import { media }           from "@/config/media";
 
@@ -41,6 +42,7 @@ export default function Home() {
         <CTA />
         <Footer />
       </div>
+      <BannerPopup />
     </main>
   );
 }

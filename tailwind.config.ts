@@ -12,6 +12,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        short: { raw: "(max-height: 480px)" }, // phones in landscape
+      },
       colors: {
         primary: {
           DEFAULT: "rgb(var(--color-primary) / <alpha-value>)",

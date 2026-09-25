@@ -97,3 +97,9 @@ export interface PaginatedBookings {
   pages: number;
   stats: BookingStats;
 }
+
+export interface Banner {
+  /** S3 object key — stable per image, used to remember a dismissal. */
+  key: string;
+  image_url: string;
+}

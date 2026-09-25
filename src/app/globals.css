@@ -688,3 +688,41 @@ input[type="time"]:focus::-webkit-calendar-picker-indicator {
 .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle::after {
   border-top-color: #e2e8f0 !important;
 }
+
+/* ── Promo banner popup (BannerPopup.tsx) ──────────────────── */
+/* The image is sized to whatever the viewport leaves after the padding and
+   the controls, so a poster is always shown whole — never cropped or scrolled. */
+.banner-overlay {
+  --pad: 1.25rem;
+  --bar: 0px;  /* height of the controls row under the image */
+  --side: 0px; /* width of the side arrows on short screens */
+  padding: calc(var(--pad) + env(safe-area-inset-top)) calc(var(--pad) + env(safe-area-inset-right))
+    calc(var(--pad) + env(safe-area-inset-bottom)) calc(var(--pad) + env(safe-area-inset-left));
+}
+.banner-overlay[data-multi] {
+  --bar: 3.5rem;
+}
+@media (min-width: 640px) {
+  .banner-overlay { --pad: 2rem; }
+}
+/* Phones in landscape: height is scarce, so the arrows move beside the image. */
+@media (max-height: 480px) {
+  .banner-overlay { --pad: 1rem; }
+  .banner-overlay[data-multi] { --bar: 0px; --side: 7rem; }
+}
+.banner-img {
+  max-width: min(64rem, calc(100vw - 2 * var(--pad) - var(--side)
+    - env(safe-area-inset-left) - env(safe-area-inset-right)));
+  max-height: calc(100vh - 2 * var(--pad) - var(--bar)
+    - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  /* svh: the viewport with mobile browser bars showing, so nothing hides under them. */
+  max-height: calc(100svh - 2 * var(--pad) - var(--bar)
+    - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+@keyframes banner-in {
+  from { opacity: 0; }
+}
+@keyframes banner-progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}

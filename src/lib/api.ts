@@ -5,6 +5,7 @@
 import type {
   Admin,
   AuthSession,
+  Banner,
   BlockedPeriod,
   Booking,
   BookingListParams,
@@ -116,6 +117,8 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 export const api = {
   // ---- Public ----
   getConfig: () => request<SiteConfig>("/config"),
+  /** Every image in the S3 banner folder, in display order; [] when empty. */
+  getBanners: () => request<Banner[]>("/banners", { cache: "no-store" }),
   getSlots: (date?: string, appointment_type?: string) => {
     const qs = new URLSearchParams();
     if (date) qs.set("date", date);
